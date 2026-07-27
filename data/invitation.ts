@@ -80,9 +80,9 @@ export const invitation = {
   // src khali chhoro tou uski jagah ek decorative illustration lag jati hai.
   // Video item: { type: "video", src: "/videos/clip.mp4", caption: "Our little film" }
   gallery: [
-    { type: "image", src: "", caption: "The beginning" },
-    { type: "image", src: "", caption: "Forever starts here" },
-    { type: "image", src: "", caption: "And always" },
+    { type: "image", src: "/photos/moment-1.jpg", caption: "The beginning" },
+    { type: "image", src: "/photos/moment-2.jpg", caption: "Forever starts here" },
+    { type: "image", src: "/photos/moment-3.jpg", caption: "And always" },
   ] as { type: "image" | "video"; src: string; caption: string }[],
 
   venue: {
