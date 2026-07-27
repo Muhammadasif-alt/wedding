@@ -2,16 +2,18 @@
 
 import { invitation } from "@/data/invitation";
 import { useCountdown } from "@/hooks/useCountdown";
+import { useImageReady } from "@/hooks/useImageReady";
 
 export default function Countdown() {
   const { d, h, m, s, ticked } = useCountdown(invitation.countdownTarget);
   const { countdown } = invitation;
+  // background sirf tab lagta hai jab file waqai maujood ho
+  const hasBg = useImageReady(countdown.bg);
 
   return (
-    <section className={`sec countdown${countdown.bg ? " on-photo" : ""}`}>
-      {/* background image — data/invitation.ts ke countdown.bg se aati hai.
-          background-image use kiya hai taake file na ho tou saada cream dikhe, toota icon nahi */}
-      {countdown.bg && (
+    <section className={`sec countdown${hasBg ? " on-photo" : ""}`}>
+      {/* background image — data/invitation.ts ke countdown.bg se aati hai */}
+      {hasBg && (
         <div className="sec-bg" style={{ backgroundImage: `url("${countdown.bg}")` }}>
           <div className="sec-veil" style={{ "--veil": countdown.veil } as React.CSSProperties} />
         </div>

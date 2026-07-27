@@ -5,6 +5,7 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { invitation } from "@/data/invitation";
 import { Bloom, MomentArt, VenueIllustration } from "./Florals";
+import { useImageReady } from "@/hooks/useImageReady";
 import Countdown from "./Countdown";
 
 type Props = {
@@ -25,6 +26,9 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
   const { couple, weddingDate, hero, celebration, events, moments, gallery, venue, rsvp } = invitation;
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mapLive, setMapLive] = useState(false); // map tap karne ke baad hi drag hota hai
+  // background sirf tab lagta hai jab file waqai maujood ho
+  const hasCelebrationBg = useImageReady(invitation.celebration.bg);
+  const hasMomentsBg = useImageReady(invitation.moments.bg);
 
   // card dikhte hi video chalao (kuch mobile browsers khud start nahi karte)
   useEffect(() => {
@@ -118,8 +122,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
       <Countdown />
 
       {/* ---------- EVENTS ---------- */}
-      <section className={`sec${celebration.bg ? " on-photo" : ""}`}>
-        {celebration.bg && (
+      <section className={`sec${hasCelebrationBg ? " on-photo" : ""}`}>
+        {hasCelebrationBg && (
           <div className="sec-bg" style={{ backgroundImage: `url("${celebration.bg}")` }}>
             <div className="sec-veil" style={{ "--veil": celebration.veil } as React.CSSProperties} />
           </div>
@@ -143,8 +147,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
 
       {/* ---------- GALLERY ---------- */}
       {gallery.length > 0 && (
-        <section className={`sec${moments.bg ? " on-photo" : ""}`}>
-          {moments.bg && (
+        <section className={`sec${hasMomentsBg ? " on-photo" : ""}`}>
+          {hasMomentsBg && (
             <div className="sec-bg" style={{ backgroundImage: `url("${moments.bg}")` }}>
               <div className="sec-veil" style={{ "--veil": moments.veil } as React.CSSProperties} />
             </div>
