@@ -344,7 +344,9 @@ body{
   box-shadow:0 10px 30px rgba(90,70,110,.15);
   margin-bottom:22px;background:#efe9f0;
 }
-.venue-art svg,.venue-art img{display:block;width:100%;height:auto}
+.venue-art svg{display:block;width:100%;height:auto}
+/* venue ki photo — portrait ho ya landscape, dono theek lagti hain */
+.venue-art img{display:block;width:100%;height:auto;max-height:290px;object-fit:cover;object-position:center}
 .venue-name{font-family:'Great Vibes',cursive;font-size:1.8rem;color:var(--ink)}
 .venue-addr{
   margin-top:8px;font-family:'Jost',sans-serif;font-weight:300;

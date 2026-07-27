@@ -116,8 +116,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
 
       {/* ---------- EVENTS ---------- */}
       <section className="sec">
-        <h2 className="script-title rv">Our Events</h2>
-        <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>Three days of celebration</div>
+        <h2 className="script-title rv">Our Celebration</h2>
+        <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>We would love to have you with us</div>
 
         {events.map((ev, i) => (
           <div key={ev.name} className="event rv" style={{ "--d": `${0.15 + i * 0.13}s` } as React.CSSProperties}>

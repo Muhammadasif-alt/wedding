@@ -18,8 +18,8 @@ export const invitation = {
   },
 
   // Main wedding date (hero + countdown iss se chalta hai)
-  weddingDate: "16 · 12 · 2026",
-  countdownTarget: "2026-12-16T20:00:00+05:00",
+  weddingDate: "10 · 10 · 2026",
+  countdownTarget: "2026-10-10T13:00:00+05:00",
 
   // ---------- HERO (pehli screen jo envelope khulne ke baad aati hai) ----------
   hero: {
@@ -42,22 +42,10 @@ export const invitation = {
 
   events: [
     {
-      name: "Mehndi",
-      date: "Monday, 08 Octabor 2026",
-      time: "7:00 PM onwards",
-      venue: "Residence — Valencia Town, Lahore",
-    },
-    {
-      name: "Baraat",
-      date: "Wednesday, 09 Octbar 2026",
-      time: "8:00 PM onwards",
-      venue: "Grand Palace Marquee, Lahore",
-    },
-    {
       name: "Walima",
-      date: "Friday, 10 Octbar 2026",
-      time: "8:00 PM onwards",
-      venue: "Royal Swiss Banquet Hall, Lahore",
+      date: "Saturday, 10 October 2026",
+      time: "1:00 PM onwards",
+      venue: "Encore by Zafar Group, Pine Avenue, Lahore",
     },
   ],
 
@@ -70,15 +58,15 @@ export const invitation = {
   ] as { type: "image" | "video"; src: string; caption: string }[],
 
   venue: {
-    name: "Grand Palace Marquee",
-    address: ["Main Boulevard, Valencia Town", "Lahore, Pakistan"],
-    mapsUrl: "https://maps.google.com/?q=Grand+Palace+Marquee+Lahore",
+    name: "Encore by Zafar Group",
+    address: ["Pine Avenue", "Lahore, Pakistan"],
+    mapsUrl: "https://maps.google.com/?q=Encore+by+Zafar+Group+Pine+Avenue+Lahore",
     // Venue ki asli photo lagani ho tou: "/photos/venue.jpg" — warna "" (illustration dikhegi)
-    photo: "",
+    photo: "/photos/venue.jpg",
   },
 
   rsvp: {
-    note: "Your presence will make our special day complete. Please let us know by 1 December 2026.",
+    note: "Your presence will make our special day complete. Please let us know by 1 October 2026.",
     whatsappNumber: "923000000000", // apna number, country code ke sath, bina + ke
     whatsappMessage:
       "Assalam o Alaikum! I would love to attend the wedding of Wajhi & Mubdha.",
