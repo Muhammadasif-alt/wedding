@@ -7,7 +7,7 @@ export const invitation = {
     groom: "Wajih ur Rehman",
     // Dulha ki 2 chhoti lines (khali "" chhodo tou line dikhegi hi nahi)
     groomParents: "Son of Mr. & Mrs. Inam ur Rehman",
-    groomTitle: "Software Engineer",
+    groomTitle: "CEO, Idea Digital",
 
     bride: "Meher Zadi Mubda",
     // Dulhan ki 2 chhoti lines
