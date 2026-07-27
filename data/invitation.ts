@@ -90,10 +90,6 @@ export const invitation = {
     address: ["Pine Avenue", "Lahore, Pakistan"],
     // "Open in Maps" button iss link pe jata hai
     mapsUrl: "https://maps.app.goo.gl/XDnwhuE41h9eGwH27",
-    // Card ke andar chalta hua map — Google Maps pe Share > Embed a map se "src" copy karo
-    // Map nahi chahiye tou "" kar do
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.642197461954!2d74.24493577560662!3d31.39642797427097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391901c14cae7263%3A0x5920deda7ff8b8eb!2sEncore%20by%20Zafar%20Group!5e0!3m2!1sen!2sus!4v1785144150352!5m2!1sen!2sus",
     // Venue section ke peeche chalne wali video. "" kar do tou saada cream background.
     // File ka naam bilkul waisa hi likhna jaisa public/videos mein hai (capital V bhi)
     video: "/videos/Venue.mp4",
