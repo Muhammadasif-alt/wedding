@@ -40,6 +40,25 @@ export const invitation = {
     footer: "Together with their families",
   },
 
+  // ---------- COUNTDOWN ----------
+  countdown: {
+    // Background image — file public/photos mein rakho, phir yahan path likho.
+    // Koi background nahi chahiye tou "" kar do (saada cream background rahega)
+    bg: "/photos/countdown.jpg",
+    // Image ke upar kitna cream parda ho taake text saaf parha jaye — 0 se 1
+    veil: 0.55,
+    title: "Countdown",
+    sub: "We can't wait for this moment",
+  },
+
+  // ---------- OUR CELEBRATION (event card) ----------
+  celebration: {
+    bg: "/photos/celebration.jpg", // background image; "" = saada cream
+    veil: 0.4,
+    title: "Our Celebration",
+    sub: "We would love to have you with us",
+  },
+
   events: [
     {
       name: "Walima",
@@ -49,12 +68,21 @@ export const invitation = {
     },
   ],
 
+  // ---------- OUR MOMENTS (gallery) ----------
+  moments: {
+    bg: "/photos/moments.jpg", // background image; "" = saada cream
+    veil: 0.62,
+    title: "Our Moments",
+    sub: "A few memories along the way",
+  },
+
   // Gallery — jitni chahiye utni entries. Photos public/photos mein rakho.
+  // src khali chhoro tou uski jagah ek decorative illustration lag jati hai.
   // Video item: { type: "video", src: "/videos/clip.mp4", caption: "Our little film" }
   gallery: [
     { type: "image", src: "", caption: "The beginning" },
     { type: "image", src: "", caption: "Forever starts here" },
-    { type: "video", src: "", caption: "Our little film" },
+    { type: "image", src: "", caption: "And always" },
   ] as { type: "image" | "video"; src: string; caption: string }[],
 
   venue: {

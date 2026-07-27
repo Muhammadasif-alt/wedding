@@ -5,12 +5,21 @@ import { useCountdown } from "@/hooks/useCountdown";
 
 export default function Countdown() {
   const { d, h, m, s, ticked } = useCountdown(invitation.countdownTarget);
+  const { countdown } = invitation;
 
   return (
-    <section className="sec">
-      <h2 className="script-title rv">Countdown</h2>
+    <section className={`sec countdown${countdown.bg ? " on-photo" : ""}`}>
+      {/* background image — data/invitation.ts ke countdown.bg se aati hai.
+          background-image use kiya hai taake file na ho tou saada cream dikhe, toota icon nahi */}
+      {countdown.bg && (
+        <div className="sec-bg" style={{ backgroundImage: `url("${countdown.bg}")` }}>
+          <div className="sec-veil" style={{ "--veil": countdown.veil } as React.CSSProperties} />
+        </div>
+      )}
+
+      <h2 className="script-title rv">{countdown.title}</h2>
       <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>
-        We can&apos;t wait for this moment
+        {countdown.sub}
       </div>
       <div className="count-frame rv" style={{ "--d": ".2s" } as React.CSSProperties}>
         <div className="count-grid">

@@ -4,7 +4,7 @@
 
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { invitation } from "@/data/invitation";
-import { Bloom, VenueIllustration } from "./Florals";
+import { Bloom, MomentArt, VenueIllustration } from "./Florals";
 import Countdown from "./Countdown";
 
 type Props = {
@@ -22,7 +22,7 @@ function HeartMark() {
 }
 
 const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, ref) {
-  const { couple, weddingDate, hero, events, gallery, venue, rsvp } = invitation;
+  const { couple, weddingDate, hero, celebration, events, moments, gallery, venue, rsvp } = invitation;
   const videoRef = useRef<HTMLVideoElement>(null);
   const [mapLive, setMapLive] = useState(false); // map tap karne ke baad hi drag hota hai
 
@@ -35,6 +35,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
   }, [show]);
 
   const waLink = `https://wa.me/${rsvp.whatsappNumber}?text=${encodeURIComponent(rsvp.whatsappMessage)}`;
+  // "Wajhi & Mubda" -> "W & M" (gallery illustration ke beech mein)
+  const monogram = couple.shortNames.replace(/[^A-Z&]/g, "").split("&").join(" & ");
 
   return (
     <div ref={ref} id="cardScene" className={show ? "show" : ""} aria-label="Wedding invitation card">
@@ -116,9 +118,14 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
       <Countdown />
 
       {/* ---------- EVENTS ---------- */}
-      <section className="sec">
-        <h2 className="script-title rv">Our Celebration</h2>
-        <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>We would love to have you with us</div>
+      <section className={`sec${celebration.bg ? " on-photo" : ""}`}>
+        {celebration.bg && (
+          <div className="sec-bg" style={{ backgroundImage: `url("${celebration.bg}")` }}>
+            <div className="sec-veil" style={{ "--veil": celebration.veil } as React.CSSProperties} />
+          </div>
+        )}
+        <h2 className="script-title rv">{celebration.title}</h2>
+        <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>{celebration.sub}</div>
 
         {events.map((ev, i) => (
           <div key={ev.name} className="event rv" style={{ "--d": `${0.15 + i * 0.13}s` } as React.CSSProperties}>
@@ -136,18 +143,20 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
 
       {/* ---------- GALLERY ---------- */}
       {gallery.length > 0 && (
-        <section className="sec">
-          <h2 className="script-title rv">Our Moments</h2>
-          <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>A few memories along the way</div>
+        <section className={`sec${moments.bg ? " on-photo" : ""}`}>
+          {moments.bg && (
+            <div className="sec-bg" style={{ backgroundImage: `url("${moments.bg}")` }}>
+              <div className="sec-veil" style={{ "--veil": moments.veil } as React.CSSProperties} />
+            </div>
+          )}
+          <h2 className="script-title rv">{moments.title}</h2>
+          <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>{moments.sub}</div>
 
           {gallery.map((g, i) => (
             <div key={i} className="polaroid rv" style={{ "--d": `${0.15 + i * 0.13}s` } as React.CSSProperties}>
               <div className="frame">
                 {g.src === "" ? (
-                  <div className="ph">
-                    {g.type === "video" ? "Video" : `Photo ${i + 1}`}
-                    <small>data/invitation.ts mein src set karo</small>
-                  </div>
+                  <MomentArt i={i} initials={monogram} />
                 ) : g.type === "video" ? (
                   <video src={g.src} autoPlay muted loop playsInline />
                 ) : (
@@ -215,11 +224,17 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
           Confirm on WhatsApp
         </a>
 
-        <div className="close-wrap rv" style={{ "--d": ".38s" } as React.CSSProperties}>
-          <button className="btn ghost" onClick={onClose}>
+        {/* aakhri hissa — pehle yahan ek khaali sa "close" button tha,
+            ab ek proper closing note hai aur band karne ka option chhota rakha hai */}
+        <div className="farewell rv" style={{ "--d": ".38s" } as React.CSSProperties}>
+          <div className="rule">
+            <HeartMark />
+          </div>
+          <p className="farewell-line">With love and prayers,</p>
+          <div className="farewell-names">{couple.shortNames}</div>
+          <button className="close-link" onClick={onClose}>
             Close invitation
           </button>
-          <div className="close-note">Seals the envelope again</div>
         </div>
       </section>
     </div>

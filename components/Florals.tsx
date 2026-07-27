@@ -63,6 +63,107 @@ export function Garland() {
   );
 }
 
+// Gallery mein jab tak asli photo na ho, uski jagah yeh illustration lagti hai.
+// data/invitation.ts mein gallery ka src bhar do tou yeh apne aap hat jayegi.
+function Leaf({ x, y, rot, s = 1, fill = "#c7b9d6" }: { x: number; y: number; rot: number; s?: number; fill?: string }) {
+  return (
+    <path
+      d="M0 0 Q11 -8 24 0 Q11 8 0 0Z"
+      fill={fill}
+      transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`}
+    />
+  );
+}
+
+export function MomentArt({ i, initials }: { i: number; initials: string }) {
+  const variant = i % 3;
+  return (
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Decorative floral illustration">
+      <defs>
+        <linearGradient id={`mg${i}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fbf5ef" />
+          <stop offset="100%" stopColor="#ece2ee" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" fill={`url(#mg${i})`} />
+
+      {/* wreath + monogram */}
+      {variant === 0 && (
+        <>
+          {Array.from({ length: 20 }).map((_, n) => {
+            const a = (n / 20) * Math.PI * 2;
+            return (
+              <Leaf
+                key={n}
+                x={200 + Math.cos(a) * 82}
+                y={150 + Math.sin(a) * 82}
+                rot={(a * 180) / Math.PI + 90}
+                s={n % 2 ? 0.85 : 1.15}
+                fill={n % 3 === 0 ? "#d5bd8f" : "#c7b9d6"}
+              />
+            );
+          })}
+          <circle cx="200" cy="150" r="62" fill="none" stroke="#d3b78a" strokeWidth="1.2" opacity=".8" />
+          <text
+            x="200"
+            y="166"
+            textAnchor="middle"
+            fontFamily="'Great Vibes', cursive"
+            fontSize="46"
+            fill="#7d6e8a"
+          >
+            {initials}
+          </text>
+        </>
+      )}
+
+      {/* do jurey huay chhalley */}
+      {variant === 1 && (
+        <>
+          <circle cx="172" cy="146" r="48" fill="none" stroke="#c2a06a" strokeWidth="4" />
+          <circle cx="232" cy="146" r="48" fill="none" stroke="#e0cba2" strokeWidth="4" />
+          <circle cx="172" cy="98" r="5" fill="#efdcb8" />
+          <circle cx="232" cy="98" r="4" fill="#efdcb8" />
+          {[
+            [118, 214, -22],
+            [148, 226, -8],
+            [252, 226, 188],
+            [282, 214, 202],
+          ].map(([x, y, r], n) => (
+            <Leaf key={n} x={x} y={y} rot={r} s={1.25} fill={n % 2 ? "#c7b9d6" : "#d5bd8f"} />
+          ))}
+          <path d="M150 232 Q200 246 250 232" fill="none" stroke="#c7b9d6" strokeWidth="1.6" />
+        </>
+      )}
+
+      {/* patton se bana dil */}
+      {variant === 2 && (
+        <>
+          <path
+            d="M200 236 C200 194 148 182 148 142 C148 112 178 100 200 126 C222 100 252 112 252 142 C252 182 200 194 200 236Z"
+            fill="none"
+            stroke="#c2a06a"
+            strokeWidth="2.4"
+          />
+          {[
+            [152, 128, -50],
+            [166, 108, -28],
+            [190, 100, -6],
+            [234, 108, 202],
+            [248, 128, 226],
+            [162, 168, -66],
+            [238, 168, 246],
+          ].map(([x, y, r], n) => (
+            <Leaf key={n} x={x} y={y} rot={r} s={n % 2 ? 0.95 : 1.2} fill={n % 3 === 0 ? "#d5bd8f" : "#c7b9d6"} />
+          ))}
+          <circle cx="200" cy="164" r="7" fill="#dcd1e6" />
+          <circle cx="200" cy="164" r="3" fill="#b3a3c6" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function VenueIllustration() {
   return (
     <svg viewBox="0 0 330 200" xmlns="http://www.w3.org/2000/svg">
