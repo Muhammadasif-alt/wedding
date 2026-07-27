@@ -48,12 +48,13 @@ body{
   background:radial-gradient(120% 70% at 50% 0%, var(--rose-hi) 0%, var(--rose) 55%, var(--rose-lo) 100%);
   z-index:5;
   overflow:hidden;
-  /* wapas band karte waqt envelope foran visible ho kar fade-in hota hai */
-  transition:opacity .6s ease, visibility 0s;
+  /* wapas band karte waqt envelope foran visible ho kar aaram se fade-in hota hai */
+  transition:opacity .8s ease, visibility 0s;
 }
+/* khulte waqt: pehle envelope thora zoom hota hai, phir dheere dheere ghulta hai */
 #envScene.opened{
   opacity:0;visibility:hidden;pointer-events:none;
-  transition:opacity .6s ease, visibility 0s .65s;
+  transition:opacity 1.25s cubic-bezier(.4,0,.5,1) .6s, visibility 0s 1.9s;
 }
 
 /* falling petals */
@@ -84,11 +85,17 @@ body{
    badalni ho tou usi naam se replace kar do; seal ki position neeche .seal mein set hai */
 .env-photo{
   position:absolute;inset:0;z-index:2;
-  transition:transform .85s cubic-bezier(.4,0,.5,1);
+  will-change:transform,filter;
+  transition:transform .9s cubic-bezier(.3,0,.3,1), filter .6s ease;
 }
 .env-photo img{object-fit:cover;object-position:center}
-/* seal tap karte hi envelope halka zoom ho kar poori scene fade — aur invitation saamne */
-#envScene.opened .env-photo{transform:scale(1.14)}
+/* seal tap ke baad envelope aaram se paas aata hai aur halka blur ho kar ghul jata hai —
+   yeh 2s ka slow zoom hi "smoothly khulne" wala ehsaas deta hai */
+#envScene.opened .env-photo{
+  transform:scale(1.32);
+  filter:blur(6px);
+  transition:transform 2s cubic-bezier(.34,0,.2,1), filter 1.3s ease .5s;
+}
 
 /* wax seal — photo waale gold seal ke upar transparent tap target
    (photo mein seal 48% width / 60% height pe hai, isliye yeh values) */
@@ -99,13 +106,13 @@ body{
   border:none;padding:0;cursor:pointer;
   background:transparent;border-radius:50%;
   z-index:6;
-  transition:transform .55s cubic-bezier(.6,0,.7,1), opacity .55s ease;
+  transition:transform .9s cubic-bezier(.4,0,.4,1), opacity .7s ease;
   animation:sealPulse 2.8s ease-out infinite;
 }
 .seal:active{transform:translate(-50%,-50%) scale(.94)}
 #envScene.opened .seal{
   opacity:0;
-  transform:translate(-50%,-50%) scale(1.5);
+  transform:translate(-50%,-50%) scale(1.6);
   pointer-events:none;animation:none;
 }
 @keyframes sealPulse{
@@ -119,7 +126,7 @@ body{
   font-size:.66rem;letter-spacing:.4em;text-indent:.4em;
   color:var(--rose-gold);text-transform:uppercase;z-index:6;opacity:.95;
   text-shadow:0 1px 0 rgba(255,255,255,.55);
-  transition:opacity .3s;
+  transition:opacity .5s ease;
 }
 #envScene.opened .tap-hint{opacity:0}
 
@@ -127,8 +134,10 @@ body{
 #cardScene{
   position:absolute;inset:0;background:var(--cream);
   overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
-  opacity:0;visibility:hidden;transform:scale(1.02);
-  transition:opacity .6s ease, transform .6s ease;
+  opacity:0;visibility:hidden;transform:scale(1.06);
+  will-change:opacity,transform;
+  /* envelope ke ghulne ke sath sath yeh dheere dheere apni jagah par baith jata hai */
+  transition:opacity 1.25s ease, transform 1.7s cubic-bezier(.2,.7,.25,1);
   z-index:4;scroll-behavior:smooth;
 }
 #cardScene.show{opacity:1;visibility:visible;transform:none}

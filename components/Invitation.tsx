@@ -19,12 +19,13 @@ export default function Invitation() {
 
   const handleOpen = () => {
     setOpened(true);
-    // envelope fade hone ke sath hi card bhi aa jata hai — beech mein koi screen nahi
+    // envelope pehle aaram se paas aata hai, phir ghulna shuru karta hai — theek ussi
+    // waqt card apni jagah settle hota hai, is liye beech mein koi khaali screen nahi aati
     setTimeout(() => {
       setShowCard(true);
       if (cardRef.current) cardRef.current.scrollTop = 0;
       requestAnimationFrame(check);
-    }, reduced ? 20 : 60);
+    }, reduced ? 20 : 550);
   };
 
   const handleClose = () => {
@@ -33,7 +34,7 @@ export default function Invitation() {
       setShowCard(false);
       if (cardRef.current) cardRef.current.scrollTop = 0;
       reset(); // taake dobara kholne pe animations phir chalein
-    }, reduced ? 30 : 650);
+    }, reduced ? 30 : 850);
   };
 
   return (
