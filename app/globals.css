@@ -149,7 +149,8 @@ body{
 .hero{
   background:radial-gradient(80% 55% at 50% -10%, #f0e8f3 0%, transparent 60%), var(--cream);
   overflow:hidden;
-  padding:56px 26px 78px;
+  /* neeche kaafi jagah taake text scroll cue ke upar na chadhe */
+  padding:78px 26px 124px;
 }
 .hero-frame{position:absolute;inset:12px;border:1px solid rgba(122,107,134,.35);border-radius:4px;pointer-events:none;z-index:2}
 .hero-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(122,107,134,.2);border-radius:2px}
@@ -219,7 +220,7 @@ body{
 .hero-date{margin-top:22px;font-size:1.12rem;letter-spacing:.28em;text-indent:.28em;font-weight:500}
 @keyframes shimmer{to{background-position:-200% center}}
 .hero-sub{
-  margin-top:16px;max-width:250px;
+  margin-top:16px;max-width:290px;
   font-family:'Jost',sans-serif;font-weight:300;
   font-size:.72rem;letter-spacing:.28em;line-height:2.1;
   text-transform:uppercase;color:var(--ink-soft);
@@ -242,7 +243,7 @@ body{
 .hero.on-media .scroll-cue .mouse::after{background:rgba(250,244,235,.9)}
 
 .scroll-cue{
-  position:absolute;bottom:22px;left:0;right:0;z-index:2;
+  position:absolute;bottom:14px;left:0;right:0;z-index:2;
   font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.35em;text-indent:.35em;
   text-transform:uppercase;color:var(--ink-soft);
 }
@@ -253,13 +254,13 @@ body{
   animation:wheel 1.6s ease-in-out infinite;
 }
 /* chhoti screens pe hero ka text thora compact */
-@media (max-height:700px){
-  .hero{padding:44px 24px 64px}
+@media (max-height:760px){
+  .hero{padding:60px 24px 110px}
   .hero-welcome{font-size:.92rem;line-height:1.8;max-width:250px}
   .names{font-size:clamp(2rem,8.4vw,2.5rem)}
   .rule{margin:13px auto 11px}
   .hero-date{margin-top:16px;font-size:1rem}
-  .hero-sub{margin-top:12px}
+  .hero-sub{margin-top:12px;font-size:.68rem;letter-spacing:.22em}
   .hero-inner>.heart-mark{margin-bottom:10px}
 }
 @keyframes wheel{0%{opacity:1;top:6px}70%{opacity:0;top:16px}100%{opacity:0;top:6px}}
@@ -352,6 +353,30 @@ body{
   margin-top:8px;font-family:'Jost',sans-serif;font-weight:300;
   font-size:.76rem;letter-spacing:.16em;line-height:1.9;color:var(--ink-soft);max-width:270px;
 }
+/* card ke andar chalta hua Google map */
+.venue-map{
+  position:relative;width:100%;max-width:330px;margin-top:22px;
+  border:1px solid rgba(122,107,134,.35);border-radius:6px;overflow:hidden;
+  box-shadow:0 10px 30px rgba(90,70,110,.15);background:#efe9f0;
+  line-height:0;
+}
+.venue-map iframe{
+  display:block;width:100%;height:200px;border:0;
+  pointer-events:none; /* scroll karte waqt map beech mein na aaye */
+  filter:saturate(.85);
+}
+.venue-map.live iframe{pointer-events:auto}
+.map-unlock{
+  position:absolute;inset:0;width:100%;
+  background:rgba(30,20,42,.12);border:none;cursor:pointer;
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;
+  font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.6rem;letter-spacing:.26em;text-indent:.26em;text-transform:uppercase;
+  color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.7);
+  transition:background .25s;
+}
+.map-unlock:hover{background:rgba(30,20,42,.2)}
+
 .btn{
   display:inline-block;margin-top:22px;
   font-family:'Jost',sans-serif;font-weight:400;

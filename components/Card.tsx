@@ -2,7 +2,7 @@
 
 // Poora invitation card — hero, countdown, events, gallery, venue, RSVP
 
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { invitation } from "@/data/invitation";
 import { Bloom, VenueIllustration } from "./Florals";
 import Countdown from "./Countdown";
@@ -24,6 +24,7 @@ function HeartMark() {
 const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, ref) {
   const { couple, weddingDate, hero, events, gallery, venue, rsvp } = invitation;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [mapLive, setMapLive] = useState(false); // map tap karne ke baad hi drag hota hai
 
   // card dikhte hi video chalao (kuch mobile browsers khud start nahi karte)
   useEffect(() => {
@@ -181,7 +182,26 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
             </span>
           ))}
         </div>
-        <a className="btn rv" style={{ "--d": ".4s" } as React.CSSProperties} href={venue.mapsUrl} target="_blank" rel="noopener noreferrer">
+
+        {/* live map — pehle tap tak locked rehta hai warna scroll karte waqt map pakar leta hai */}
+        {venue.mapEmbed && (
+          <div className={`venue-map rv${mapLive ? " live" : ""}`} style={{ "--d": ".38s" } as React.CSSProperties}>
+            <iframe
+              src={venue.mapEmbed}
+              title={`Map of ${venue.name}`}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+            {!mapLive && (
+              <button className="map-unlock" onClick={() => setMapLive(true)}>
+                Tap to move the map
+              </button>
+            )}
+          </div>
+        )}
+
+        <a className="btn rv" style={{ "--d": ".46s" } as React.CSSProperties} href={venue.mapsUrl} target="_blank" rel="noopener noreferrer">
           Open in Maps
         </a>
       </section>

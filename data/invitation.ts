@@ -6,7 +6,7 @@ export const invitation = {
   couple: {
     groom: "Wajih ur Rehman",
     // Dulha ki 2 chhoti lines (khali "" chhodo tou line dikhegi hi nahi)
-    groomParents: "Son of Mr. & Mrs. Rehman",
+    groomParents: "Son of Mr. & Mrs. Inam ur Rehman",
     groomTitle: "Software Engineer",
 
     bride: "Meher Zadi Mubda",
@@ -60,7 +60,12 @@ export const invitation = {
   venue: {
     name: "Encore by Zafar Group",
     address: ["Pine Avenue", "Lahore, Pakistan"],
-    mapsUrl: "https://maps.google.com/?q=Encore+by+Zafar+Group+Pine+Avenue+Lahore",
+    // "Open in Maps" button iss link pe jata hai
+    mapsUrl: "https://maps.app.goo.gl/XDnwhuE41h9eGwH27",
+    // Card ke andar chalta hua map — Google Maps pe Share > Embed a map se "src" copy karo
+    // Map nahi chahiye tou "" kar do
+    mapEmbed:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.642197461954!2d74.24493577560662!3d31.39642797427097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391901c14cae7263%3A0x5920deda7ff8b8eb!2sEncore%20by%20Zafar%20Group!5e0!3m2!1sen!2sus!4v1785144150352!5m2!1sen!2sus",
     // Venue ki asli photo lagani ho tou: "/photos/venue.jpg" — warna "" (illustration dikhegi)
     photo: "/photos/venue.jpg",
   },
