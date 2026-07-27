@@ -1,0 +1,382 @@
+/* ============================================================
+   Design styles — colors upar :root mein change kar sakte ho
+   ============================================================ */
+
+:root{
+  /* refined palette — dusty lavender + champagne gold + deep plum */
+  --lav:#b3a3c6;
+  --lav-hi:#dcd1e6;
+  --lav-mid:#c7b9d6;
+  --lav-lo:#8a789e;
+  --lav-deep:#5e4f70;
+  --plum:#241b2e;
+  --cream:#faf6ef;
+  --card-hi:#fdfaf4;
+  --ink:#463754;
+  --ink-soft:#7d6e8a;
+  --wax:#a87e93;
+  --wax-lo:#7f5b6f;
+  --gold:#d3b78a;
+  --gold-hi:#efdcb8;
+  --gold-lo:#b1936a;
+  /* envelope photo ke rose tones — photo load hone tak yahi background dikhta hai */
+  --rose-hi:#f7d7dc;
+  --rose:#eab4bf;
+  --rose-lo:#d998a7;
+  --rose-gold:#a8763a;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:'Cormorant Garamond',serif;
+  background:radial-gradient(120% 100% at 50% 0%, #342841 0%, var(--plum) 70%);
+  color:var(--ink);
+  overflow:hidden;
+}
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+.phone{
+  position:relative;width:100%;max-width:430px;height:100%;max-height:100vh;
+  overflow:hidden;background:var(--rose);
+}
+@media(min-width:500px){
+  .phone{max-height:92vh;border-radius:28px;box-shadow:0 40px 90px rgba(0,0,0,.6)}
+}
+
+/* ==================== ENVELOPE SCENE ==================== */
+#envScene{
+  position:absolute;inset:0;
+  background:radial-gradient(120% 70% at 50% 0%, var(--rose-hi) 0%, var(--rose) 55%, var(--rose-lo) 100%);
+  z-index:5;
+  overflow:hidden;
+  /* wapas band karte waqt envelope foran visible ho kar fade-in hota hai */
+  transition:opacity .6s ease, visibility 0s;
+}
+#envScene.opened{
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .6s ease, visibility 0s .65s;
+}
+
+/* falling petals */
+.petal{
+  position:absolute;top:-30px;width:14px;height:14px;
+  background:radial-gradient(circle at 35% 35%, #fff6f7, #f0c0cb 70%);
+  border-radius:80% 0 80% 0;
+  opacity:.75;pointer-events:none;z-index:4;
+  animation:petalFall linear infinite;
+}
+.petal:nth-child(1){left:8%;animation-duration:9s;animation-delay:0s;transform:scale(.8)}
+.petal:nth-child(2){left:22%;animation-duration:12s;animation-delay:2.5s}
+.petal:nth-child(3){left:38%;animation-duration:10s;animation-delay:1s;transform:scale(.7)}
+.petal:nth-child(4){left:55%;animation-duration:13s;animation-delay:4s;transform:scale(.9)}
+.petal:nth-child(5){left:70%;animation-duration:9.5s;animation-delay:.6s}
+.petal:nth-child(6){left:84%;animation-duration:11s;animation-delay:3.2s;transform:scale(.75)}
+.petal:nth-child(7){left:47%;animation-duration:14s;animation-delay:6s;transform:scale(.65)}
+.petal:nth-child(8){left:15%;animation-duration:12.5s;animation-delay:7.5s;transform:scale(.85)}
+@keyframes petalFall{
+  0%{transform:translate(0,-30px) rotate(0deg)}
+  25%{transform:translate(18px,25vh) rotate(90deg)}
+  50%{transform:translate(-14px,50vh) rotate(200deg)}
+  75%{transform:translate(16px,75vh) rotate(300deg)}
+  100%{transform:translate(-8px,108vh) rotate(400deg)}
+}
+
+/* asli envelope photo — public/envelope.jpg
+   badalni ho tou usi naam se replace kar do; seal ki position neeche .seal mein set hai */
+.env-photo{
+  position:absolute;inset:0;z-index:2;
+  transition:transform .85s cubic-bezier(.4,0,.5,1);
+}
+.env-photo img{object-fit:cover;object-position:center}
+/* seal tap karte hi envelope halka zoom ho kar poori scene fade — aur invitation saamne */
+#envScene.opened .env-photo{transform:scale(1.14)}
+
+/* wax seal — photo waale gold seal ke upar transparent tap target
+   (photo mein seal 48% width / 60% height pe hai, isliye yeh values) */
+.seal{
+  position:absolute;left:48.2%;top:59.8%;
+  transform:translate(-50%,-50%);
+  height:17.5%;aspect-ratio:1;min-width:88px;min-height:88px;
+  border:none;padding:0;cursor:pointer;
+  background:transparent;border-radius:50%;
+  z-index:6;
+  transition:transform .55s cubic-bezier(.6,0,.7,1), opacity .55s ease;
+  animation:sealPulse 2.8s ease-out infinite;
+}
+.seal:active{transform:translate(-50%,-50%) scale(.94)}
+#envScene.opened .seal{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(1.5);
+  pointer-events:none;animation:none;
+}
+@keyframes sealPulse{
+  0%{box-shadow:0 0 0 0 rgba(255,238,205,.6)}
+  70%{box-shadow:0 0 0 26px rgba(255,238,205,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,238,205,0)}
+}
+.tap-hint{
+  position:absolute;left:0;right:0;top:71%;
+  text-align:center;font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.66rem;letter-spacing:.4em;text-indent:.4em;
+  color:var(--rose-gold);text-transform:uppercase;z-index:6;opacity:.95;
+  text-shadow:0 1px 0 rgba(255,255,255,.55);
+  transition:opacity .3s;
+}
+#envScene.opened .tap-hint{opacity:0}
+
+/* ==================== CARD SCENE ==================== */
+#cardScene{
+  position:absolute;inset:0;background:var(--cream);
+  overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+  opacity:0;visibility:hidden;transform:scale(1.02);
+  transition:opacity .6s ease, transform .6s ease;
+  z-index:4;scroll-behavior:smooth;
+}
+#cardScene.show{opacity:1;visibility:visible;transform:none}
+/* subtle paper grain */
+#cardScene::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+.sec{
+  min-height:100%;padding:64px 28px 72px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;position:relative;
+}
+.sec+.sec{border-top:1px solid rgba(122,107,134,.18)}
+
+/* ---- HERO ---- */
+.hero{
+  background:radial-gradient(80% 55% at 50% -10%, #f0e8f3 0%, transparent 60%), var(--cream);
+  overflow:hidden;
+  padding:56px 26px 78px;
+}
+.hero-frame{position:absolute;inset:12px;border:1px solid rgba(122,107,134,.35);border-radius:4px;pointer-events:none;z-index:2}
+.hero-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(122,107,134,.2);border-radius:2px}
+.corner-bloom{position:absolute;width:110px;opacity:.55;pointer-events:none}
+.corner-bloom.a{top:6px;left:4px}
+.corner-bloom.b{top:6px;right:4px;transform:scaleX(-1)}
+.corner-bloom.c{bottom:6px;left:4px;transform:scaleY(-1)}
+.corner-bloom.d{bottom:6px;right:4px;transform:scale(-1)}
+
+/* BACKGROUND VIDEO / PHOTO — src data/invitation.ts ke hero.media se aata hai */
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;background:#1b1226}
+.hero-bg video,.hero-bg img{
+  width:100%;height:100%;object-fit:cover;object-position:center;display:block;
+  transform:scale(1.04);
+  animation:heroDrift 22s ease-in-out infinite alternate;
+}
+@keyframes heroDrift{from{transform:scale(1.04)}to{transform:scale(1.12)}}
+/* video ke upar dark parda — taake text saaf parha jaye (opacity: hero.veil) */
+.hero-veil{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,
+      rgba(20,13,30,calc(var(--veil,.6) * 1.15)) 0%,
+      rgba(20,13,30,calc(var(--veil,.6) * .62)) 32%,
+      rgba(20,13,30,calc(var(--veil,.6) * .72)) 62%,
+      rgba(20,13,30,calc(var(--veil,.6) * 1.25)) 100%),
+    radial-gradient(78% 58% at 50% 46%, rgba(0,0,0,0) 0%, rgba(18,11,28,.55) 100%);
+}
+
+/* text column — hamesha video ke upar */
+.hero-inner{
+  position:relative;z-index:1;width:100%;
+  display:flex;flex-direction:column;align-items:center;
+}
+.heart-mark{width:13px;height:13px;display:block;fill:var(--gold);flex:none}
+.hero-inner>.heart-mark{width:17px;height:17px;margin-bottom:16px;opacity:.95}
+
+.hero-welcome{
+  max-width:268px;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1rem;line-height:1.95;letter-spacing:.03em;color:var(--ink);
+}
+/* gold heart ke sath patli line */
+.rule{display:flex;align-items:center;justify-content:center;gap:11px;margin:18px auto 16px}
+.rule::before,.rule::after{content:"";width:56px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-lo))}
+.rule::after{background:linear-gradient(90deg,var(--gold-lo),transparent)}
+.rule .heart-mark{width:11px;height:11px}
+
+.person{width:100%}
+.names{
+  font-family:'Great Vibes',cursive;font-weight:400;
+  font-size:clamp(2.2rem,9.5vw,3rem);line-height:1.24;color:var(--ink);
+}
+.person-meta{
+  margin-top:5px;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:.86rem;letter-spacing:.07em;line-height:1.6;color:var(--ink-soft);
+}
+.person-meta:first-of-type{margin-top:9px}
+.amp{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;
+  display:block;margin:10px 0 4px;
+  background:linear-gradient(100deg,var(--gold-lo) 20%,var(--gold-hi) 50%,var(--gold-lo) 80%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 3.4s linear infinite;
+}
+.hero-date{margin-top:22px;font-size:1.12rem;letter-spacing:.28em;text-indent:.28em;font-weight:500}
+@keyframes shimmer{to{background-position:-200% center}}
+.hero-sub{
+  margin-top:16px;max-width:250px;
+  font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.72rem;letter-spacing:.28em;line-height:2.1;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+
+/* ---- video/photo ke upar wala light text version ---- */
+.hero.on-media{background:#1b1226}
+.hero.on-media .hero-frame{inset:14px;border-color:rgba(239,220,184,.42)}
+.hero.on-media .hero-frame::before{border-color:rgba(239,220,184,.2)}
+.hero.on-media .heart-mark{fill:var(--gold-hi)}
+.hero.on-media .rule::before{background:linear-gradient(90deg,transparent,rgba(239,220,184,.85))}
+.hero.on-media .rule::after{background:linear-gradient(90deg,rgba(239,220,184,.85),transparent)}
+.hero.on-media .hero-welcome{color:rgba(255,250,242,.9);text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.hero.on-media .names{color:#fffaf1;text-shadow:0 2px 22px rgba(0,0,0,.65),0 0 42px rgba(211,183,138,.35)}
+.hero.on-media .person-meta{color:rgba(250,244,235,.8);text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.hero.on-media .hero-date{color:#fdf6ea;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+.hero.on-media .hero-sub{color:rgba(250,244,235,.72);text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.hero.on-media .scroll-cue{color:rgba(250,244,235,.8);text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.hero.on-media .scroll-cue .mouse{border-color:rgba(250,244,235,.75)}
+.hero.on-media .scroll-cue .mouse::after{background:rgba(250,244,235,.9)}
+
+.scroll-cue{
+  position:absolute;bottom:22px;left:0;right:0;z-index:2;
+  font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.35em;text-indent:.35em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.scroll-cue .mouse{width:20px;height:32px;border:1.5px solid var(--ink-soft);border-radius:12px;margin:10px auto 0;position:relative}
+.scroll-cue .mouse::after{
+  content:"";position:absolute;left:50%;top:6px;width:3px;height:7px;
+  background:var(--ink-soft);border-radius:3px;transform:translateX(-50%);
+  animation:wheel 1.6s ease-in-out infinite;
+}
+/* chhoti screens pe hero ka text thora compact */
+@media (max-height:700px){
+  .hero{padding:44px 24px 64px}
+  .hero-welcome{font-size:.92rem;line-height:1.8;max-width:250px}
+  .names{font-size:clamp(2rem,8.4vw,2.5rem)}
+  .rule{margin:13px auto 11px}
+  .hero-date{margin-top:16px;font-size:1rem}
+  .hero-sub{margin-top:12px}
+  .hero-inner>.heart-mark{margin-bottom:10px}
+}
+@keyframes wheel{0%{opacity:1;top:6px}70%{opacity:0;top:16px}100%{opacity:0;top:6px}}
+
+.script-title{font-family:'Great Vibes',cursive;font-size:2.3rem;color:var(--ink);margin-bottom:8px}
+.sec-sub{
+  font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.68rem;letter-spacing:.32em;text-indent:.32em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:34px;
+}
+
+/* ---- COUNTDOWN ---- */
+.count-frame{
+  border:1px solid rgba(122,107,134,.35);padding:34px 22px 30px;border-radius:6px;
+  background:var(--card-hi);box-shadow:0 10px 30px rgba(90,70,110,.12);
+  width:100%;max-width:330px;
+}
+.count-grid{display:flex;justify-content:center;gap:6px}
+.count-cell{flex:1;min-width:0}
+.count-cell b{
+  display:block;font-size:2rem;font-weight:500;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+  transition:transform .18s ease;
+}
+.count-cell b.bump{transform:translateY(-3px) scale(1.08);color:var(--wax-lo)}
+.count-cell i{
+  font-style:normal;font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);
+}
+.count-cell+.count-cell{border-left:1px solid rgba(122,107,134,.25)}
+
+/* ---- EVENTS ---- */
+.event{
+  width:100%;max-width:330px;background:var(--card-hi);
+  border:1px solid rgba(122,107,134,.3);border-radius:6px;
+  padding:28px 22px 26px;box-shadow:0 8px 24px rgba(90,70,110,.1);
+  position:relative;overflow:hidden;
+}
+.event::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold-lo));
+}
+.event+.event{margin-top:20px}
+.event .ev-name{font-family:'Great Vibes',cursive;font-size:1.9rem;color:var(--wax-lo)}
+.event .ev-date{margin-top:8px;font-size:1.02rem;font-weight:600;letter-spacing:.12em}
+.event .ev-meta{
+  margin-top:6px;font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.74rem;letter-spacing:.14em;line-height:1.9;color:var(--ink-soft);
+}
+.ev-divider{width:34px;height:1px;background:var(--gold);margin:12px auto}
+
+/* ---- GALLERY (polaroid style) ---- */
+.polaroid{
+  width:100%;max-width:280px;background:#fff;
+  padding:12px 12px 40px;border-radius:3px;
+  box-shadow:0 14px 34px rgba(70,55,84,.22);
+  position:relative;
+}
+.polaroid+.polaroid{margin-top:28px}
+.polaroid:nth-child(odd){transform:rotate(-2.4deg)}
+.polaroid:nth-child(even){transform:rotate(2deg)}
+.polaroid .frame{
+  width:100%;aspect-ratio:4/3;overflow:hidden;background:#e8e0ee;
+}
+.polaroid .frame img,.polaroid .frame video{width:100%;height:100%;object-fit:cover;display:block}
+.polaroid .frame .ph{
+  width:100%;height:100%;
+  background:linear-gradient(145deg,#e9e1ef,#d2c4de);
+  display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;
+  font-family:'Jost',sans-serif;font-weight:300;font-size:.6rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);
+}
+.polaroid .cap{
+  position:absolute;left:0;right:0;bottom:10px;
+  font-family:'Great Vibes',cursive;font-size:1.25rem;color:var(--ink-soft);
+}
+
+/* ---- VENUE ---- */
+.venue-art{
+  width:100%;max-width:330px;border-radius:6px;overflow:hidden;
+  border:1px solid rgba(122,107,134,.35);
+  box-shadow:0 10px 30px rgba(90,70,110,.15);
+  margin-bottom:22px;background:#efe9f0;
+}
+.venue-art svg,.venue-art img{display:block;width:100%;height:auto}
+.venue-name{font-family:'Great Vibes',cursive;font-size:1.8rem;color:var(--ink)}
+.venue-addr{
+  margin-top:8px;font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.76rem;letter-spacing:.16em;line-height:1.9;color:var(--ink-soft);max-width:270px;
+}
+.btn{
+  display:inline-block;margin-top:22px;
+  font-family:'Jost',sans-serif;font-weight:400;
+  font-size:.7rem;letter-spacing:.3em;text-indent:.3em;
+  text-transform:uppercase;text-decoration:none;
+  color:var(--cream);background:var(--ink);
+  padding:14px 26px;border-radius:2px;border:none;cursor:pointer;
+  transition:background .25s, transform .2s;
+}
+.btn:hover{background:var(--lav-deep)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.ghost:hover{background:rgba(74,59,82,.06)}
+
+.rsvp-note{font-size:1.05rem;font-style:italic;line-height:1.8;max-width:270px;color:var(--ink)}
+.close-wrap{margin-top:46px}
+.close-note{
+  font-family:'Jost',sans-serif;font-weight:300;font-size:.64rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-top:14px;
+}
+
+/* reveal on scroll (staggered via CSS var) */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease var(--d,0s),transform .8s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .rv{opacity:1;transform:none}
+  .petal{display:none}
+}
