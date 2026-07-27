@@ -27,7 +27,7 @@ export const invitation = {
     // Video:  { type: "video", src: "/videos/hero.mp4" }
     // Photo:  { type: "image", src: "/photos/couple.jpg" }
     // Kuch nahi (sirf cream background): null
-    media: { type: "video", src: "/videos/hero.mp4" } as null | {
+    media: { type: "video", src: "/videos/hero-bg.mp4" } as null | {
       type: "image" | "video";
       src: string;
     },
@@ -94,8 +94,11 @@ export const invitation = {
     // Map nahi chahiye tou "" kar do
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3405.642197461954!2d74.24493577560662!3d31.39642797427097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391901c14cae7263%3A0x5920deda7ff8b8eb!2sEncore%20by%20Zafar%20Group!5e0!3m2!1sen!2sus!4v1785144150352!5m2!1sen!2sus",
-    // Venue ki asli photo lagani ho tou: "/photos/venue.jpg" — warna "" (illustration dikhegi)
-    photo: "/photos/venue.jpg",
+    // Venue section ke peeche chalne wali video. "" kar do tou saada cream background.
+    // File ka naam bilkul waisa hi likhna jaisa public/videos mein hai (capital V bhi)
+    video: "/videos/Venue.mp4",
+    // Video kitni dark ho taake upar ka text saaf parha jaye — 0 se 1
+    veil: 0.62,
   },
 
   rsvp: {

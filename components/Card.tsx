@@ -4,7 +4,7 @@
 
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { invitation } from "@/data/invitation";
-import { Bloom, MomentArt, VenueIllustration } from "./Florals";
+import { Bloom, MomentArt } from "./Florals";
 import { useImageReady } from "@/hooks/useImageReady";
 import Countdown from "./Countdown";
 
@@ -25,17 +25,41 @@ function HeartMark() {
 const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, ref) {
   const { couple, weddingDate, hero, celebration, events, moments, gallery, venue, rsvp } = invitation;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const venueRef = useRef<HTMLElement>(null);
+  const venueVideoRef = useRef<HTMLVideoElement>(null);
   const [mapLive, setMapLive] = useState(false); // map tap karne ke baad hi drag hota hai
   // background sirf tab lagta hai jab file waqai maujood ho
   const hasCelebrationBg = useImageReady(invitation.celebration.bg);
   const hasMomentsBg = useImageReady(invitation.moments.bg);
 
-  // card dikhte hi video chalao (kuch mobile browsers khud start nahi karte)
+  // card dikhte hi hero ki video chalao (kuch mobile browsers khud start nahi karte)
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
     if (show) v.play().catch(() => {});
     else v.pause();
+  }, [show]);
+
+  // venue ki video sirf tab chalti hai jab wo section screen pe aata hai —
+  // warna neeche padi 4MB ki video mobile data khaati rehti
+  useEffect(() => {
+    const section = venueRef.current;
+    const v = venueVideoRef.current;
+    if (!section || !v) return;
+
+    if (!show) {
+      v.pause();
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(section);
+    return () => io.disconnect();
   }, [show]);
 
   const waLink = `https://wa.me/${rsvp.whatsappNumber}?text=${encodeURIComponent(rsvp.whatsappMessage)}`;
@@ -65,7 +89,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
               // eslint-disable-next-line @next/next/no-img-element
               <img src={hero.media.src} alt={couple.shortNames} />
             )}
-            <div className="hero-veil" style={{ "--veil": hero.veil } as React.CSSProperties} />
+            <div className="video-veil" style={{ "--veil": hero.veil } as React.CSSProperties} />
           </div>
         )}
 
@@ -175,17 +199,17 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
       )}
 
       {/* ---------- VENUE ---------- */}
-      <section className="sec">
+      <section ref={venueRef} className={`sec${venue.video ? " on-video" : ""}`}>
+        {/* background video — sirf tab chalti hai jab section screen pe aata hai */}
+        {venue.video && (
+          <div className="sec-video">
+            <video ref={venueVideoRef} src={venue.video} muted loop playsInline preload="metadata" />
+            <div className="video-veil" style={{ "--veil": venue.veil } as React.CSSProperties} />
+          </div>
+        )}
+
         <h2 className="script-title rv">Venue</h2>
         <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>Where we say qubool hai</div>
-        <div className="venue-art rv" style={{ "--d": ".15s" } as React.CSSProperties}>
-          {venue.photo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={venue.photo} alt={venue.name} />
-          ) : (
-            <VenueIllustration />
-          )}
-        </div>
         <div className="venue-name rv" style={{ "--d": ".25s" } as React.CSSProperties}>{venue.name}</div>
         <div className="venue-addr rv" style={{ "--d": ".32s" } as React.CSSProperties}>
           {venue.address.map((line) => (
