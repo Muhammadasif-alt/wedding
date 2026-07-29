@@ -23,6 +23,7 @@
 # raw videos jinse hero-scrub.mp4 banti hai — repo mein inki zaroorat nahi
 /public/videos/walkthrough.mp4
 /public/videos/wajih_hero.mov
+/public/videos/wajih_hero_mbl.MOV
 
 # debug
 npm-debug.log*
