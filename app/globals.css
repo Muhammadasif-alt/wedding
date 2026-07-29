@@ -38,8 +38,22 @@ body{
   position:relative;width:100%;max-width:430px;height:100%;max-height:100vh;
   overflow:hidden;background:var(--rose);
 }
+/* ---- DESKTOP ----
+   Pehle chaurai 430px fix thi aur oonchai 92vh — bare monitor par card lamba
+   patla sliver ban jata tha. Ab chaurai bhi oonchai ke sath barhti hai, is liye
+   card har screen par phone jaisi shakal mein hi rehta hai. */
 @media(min-width:500px){
-  .phone{max-height:92vh;border-radius:28px;box-shadow:0 40px 90px rgba(0,0,0,.6)}
+  .phone{
+    width:clamp(330px, 43vh, 440px);
+    height:min(92vh, 1024px);
+    max-width:none;max-height:none;
+    border-radius:34px;
+    box-shadow:0 40px 90px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+  }
+}
+/* bahut chhoti screen par bhi card ki shakal na bigre */
+@media(min-width:500px) and (max-height:620px){
+  .phone{width:min(94vw, 330px);height:96vh;border-radius:24px}
 }
 
 /* ==================== ENVELOPE SCENE ==================== */
@@ -139,7 +153,11 @@ body{
   /* envelope ke ghulne ke sath sath yeh dheere dheere apni jagah par baith jata hai */
   transition:opacity 1.25s ease, transform 1.7s cubic-bezier(.2,.7,.25,1);
   z-index:4;scroll-behavior:smooth;
+  /* desktop par card ke andar scrollbar bhaddi lagti hai — chhupa di,
+     scroll pehle ki tarah chalta hai */
+  scrollbar-width:none;-ms-overflow-style:none;
 }
+#cardScene::-webkit-scrollbar{width:0;height:0;display:none}
 #cardScene.show{opacity:1;visibility:visible;transform:none}
 /* subtle paper grain */
 #cardScene::before{
@@ -230,6 +248,12 @@ body{
   font-family:'Great Vibes',cursive;font-weight:400;
   font-size:clamp(2.2rem,9.5vw,3rem);line-height:1.24;color:var(--ink);
 }
+/* Desktop par card ki chaurai viewport se nahi, oonchai se bandhi hai —
+   is liye naam bhi vh se naapte hain, warna chhoti window mein patle card ke
+   andar naam zaroorat se bare reh jate hain */
+@media(min-width:500px){
+  .names{font-size:clamp(1.9rem,4.1vh,3rem)}
+}
 .person-meta{
   margin-top:5px;font-family:'Cormorant Garamond',serif;font-style:italic;
   font-size:.86rem;letter-spacing:.07em;line-height:1.6;color:var(--ink-soft);
@@ -265,8 +289,10 @@ body{
 .hero.on-media .hero-date{color:#fdf6ea;text-shadow:0 2px 14px rgba(0,0,0,.65)}
 .hero.on-media .hero-sub{color:rgba(250,244,235,.72);text-shadow:0 1px 10px rgba(0,0,0,.6)}
 
-/* chhoti screens pe hero ka text thora compact */
-@media (max-height:760px){
+/* chhoti screens pe hero ka text thora compact.
+   Desktop par card khud 92vh ka hota hai, is liye wahan threshold thora upar
+   rakha hai — warna chhota card hone ke bawajood yeh styles lagti hi nahi thin */
+@media (max-height:760px), (min-width:500px) and (max-height:830px){
   .hero{padding:60px 24px 110px}
   .hero-welcome{font-size:.92rem;line-height:1.8;max-width:250px}
   .names{font-size:clamp(2rem,8.4vw,2.5rem)}
