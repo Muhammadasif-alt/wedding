@@ -1,10 +1,10 @@
 "use client";
 
-// Poora invitation card — hero, countdown, events, gallery, venue, RSVP
+// Poora invitation card — hero, countdown, events, venue, RSVP
 
 import { forwardRef, useEffect, useRef } from "react";
 import { invitation } from "@/data/invitation";
-import { Bloom, MomentArt } from "./Florals";
+import { Bloom } from "./Florals";
 import { useImageReady } from "@/hooks/useImageReady";
 import Countdown from "./Countdown";
 
@@ -23,7 +23,7 @@ function HeartMark() {
 }
 
 const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, ref) {
-  const { couple, weddingDate, hero, celebration, events, moments, gallery, venue, rsvp } = invitation;
+  const { couple, weddingDate, hero, celebration, events, venue, rsvp } = invitation;
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const heroStickRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
     invitation.hero.scrub && invitation.hero.media?.type === "video" && !reducedMotion;
   // background sirf tab lagta hai jab file waqai maujood ho
   const hasCelebrationBg = useImageReady(invitation.celebration.bg);
-  const hasMomentsBg = useImageReady(invitation.moments.bg);
 
   // card dikhte hi hero ki video chalao (kuch mobile browsers khud start nahi karte).
   // scrub mode mein video khud nahi chalti — scroll usay aage barhata hai.
@@ -142,8 +141,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
   }, [show]);
 
   const waLink = `https://wa.me/${rsvp.whatsappNumber}?text=${encodeURIComponent(rsvp.whatsappMessage)}`;
-  // "Wajhi & Mubda" -> "W & M" (gallery illustration ke beech mein)
-  const monogram = couple.shortNames.replace(/[^A-Z&]/g, "").split("&").join(" & ");
 
   return (
     <div ref={ref} id="cardScene" className={show ? "show" : ""} aria-label="Wedding invitation card">
@@ -259,35 +256,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
           </div>
         ))}
       </section>
-
-      {/* ---------- GALLERY ---------- */}
-      {gallery.length > 0 && (
-        <section className={`sec${hasMomentsBg ? " on-photo" : ""}`}>
-          {hasMomentsBg && (
-            <div className="sec-bg" style={{ backgroundImage: `url("${moments.bg}")` }}>
-              <div className="sec-veil" style={{ "--veil": moments.veil } as React.CSSProperties} />
-            </div>
-          )}
-          <h2 className="script-title rv">{moments.title}</h2>
-          <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>{moments.sub}</div>
-
-          {gallery.map((g, i) => (
-            <div key={i} className="polaroid rv" style={{ "--d": `${0.15 + i * 0.13}s` } as React.CSSProperties}>
-              <div className="frame">
-                {g.src === "" ? (
-                  <MomentArt i={i} initials={monogram} />
-                ) : g.type === "video" ? (
-                  <video src={g.src} autoPlay muted loop playsInline />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={g.src} alt={g.caption} />
-                )}
-              </div>
-              <div className="cap">{g.caption}</div>
-            </div>
-          ))}
-        </section>
-      )}
 
       {/* ---------- VENUE ---------- */}
       <section ref={venueRef} className={`sec${venue.video ? " on-video" : ""}`}>
