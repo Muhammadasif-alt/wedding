@@ -297,6 +297,8 @@ body{
   background-size:cover;background-position:center bottom;background-repeat:no-repeat;
 }
 /* upar cream parda ghana, neeche khatam — taake image saaf dikhe aur text bhi parha jaye */
+/* Default: upar ghana, neeche khul jata hai — un sections ke liye jinka text
+   sirf upar hota hai (countdown, celebration) taake neeche image saaf dikhe */
 .sec-veil{
   position:absolute;inset:0;
   background:linear-gradient(180deg,
@@ -304,6 +306,25 @@ body{
     rgba(250,246,239,calc(var(--veil,.5) * 1.2)) 32%,
     rgba(250,246,239,calc(var(--veil,.5) * .5)) 58%,
     rgba(250,246,239,0) 100%);
+}
+/* .both: jin sections mein text neeche tak jata hai (RSVP) — wahan neeche parda
+   khatam nahi hota, warna text bright image par gum ho jata hai */
+.sec-veil.both{
+  background:linear-gradient(180deg,
+    rgba(250,246,239,calc(var(--veil,.5) * 1.7)) 0%,
+    rgba(250,246,239,calc(var(--veil,.5) * 1.15)) 28%,
+    rgba(250,246,239,calc(var(--veil,.5) * .95)) 52%,
+    rgba(250,246,239,calc(var(--veil,.5) * 1.3)) 78%,
+    rgba(250,246,239,calc(var(--veil,.5) * 1.7)) 100%);
+}
+/* halki safaid roshni text ke peeche — bright image par bhi kinare saaf rehte hain */
+.sec.on-photo .script-title,
+.sec.on-photo .sec-sub,
+.sec.on-photo .rsvp-note,
+.sec.on-photo .farewell-line,
+.sec.on-photo .farewell-names,
+.sec.on-photo .close-link{
+  text-shadow:0 1px 12px rgba(250,246,239,.9), 0 1px 3px rgba(250,246,239,.95);
 }
 /* saara content image ke upar */
 .sec.on-photo > *:not(.sec-bg){position:relative;z-index:1}

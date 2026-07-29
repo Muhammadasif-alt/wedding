@@ -98,8 +98,10 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
     v.addEventListener("seeked", onSeeked);
     scroller.addEventListener("scroll", measure, { passive: true });
     window.addEventListener("resize", measure);
-    if (v.readyState >= 1) measure();
-    else v.addEventListener("loadedmetadata", measure, { once: true });
+    // foran chala do taake --reveal set ho jaye — warna video load na hone par
+    // hero ka text hamesha ke liye chhupa reh jata hai
+    measure();
+    v.addEventListener("loadedmetadata", measure);
     raf = requestAnimationFrame(tick);
 
     // iOS par kuch devices seeking se pehle ek play/pause maangte hain
@@ -113,6 +115,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
     return () => {
       cancelAnimationFrame(raf);
       v.removeEventListener("seeked", onSeeked);
+      v.removeEventListener("loadedmetadata", measure);
       scroller.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
       window.removeEventListener("touchstart", unlock);
@@ -284,7 +287,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
       <section className={`sec${hasRsvpBg ? " on-photo" : ""}`}>
         {hasRsvpBg && (
           <div className="sec-bg" style={{ backgroundImage: `url("${rsvp.bg}")` }}>
-            <div className="sec-veil" style={{ "--veil": rsvp.veil } as React.CSSProperties} />
+            {/* .both — RSVP ka text neeche tak jata hai, is liye neeche bhi parda chahiye */}
+            <div className="sec-veil both" style={{ "--veil": rsvp.veil } as React.CSSProperties} />
           </div>
         )}
         <h2 className="script-title rv">RSVP</h2>
