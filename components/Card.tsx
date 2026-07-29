@@ -33,30 +33,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
 
   const [scrubSrc, setScrubSrc] = useState<string | null>(null);
   const [loadPct, setLoadPct] = useState(0);
-  const [soundOn, setSoundOn] = useState(false);
-
-  // muted DOM se badalta hai (seal tap par), is liye state usi se sync rakhte hain
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    const sync = () => setSoundOn(!v.muted && !v.paused);
-    v.addEventListener("volumechange", sync);
-    v.addEventListener("play", sync);
-    v.addEventListener("pause", sync);
-    sync();
-    return () => {
-      v.removeEventListener("volumechange", sync);
-      v.removeEventListener("play", sync);
-      v.removeEventListener("pause", sync);
-    };
-  }, []);
-
-  const toggleSound = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = !v.muted;
-    if (!v.muted) v.play().catch(() => {});
-  };
 
   // render ke doran matchMedia parhne se server aur client ka pehla render alag
   // ho sakta hai — is liye mount ke baad set karte hain
@@ -231,26 +207,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
   return (
     <div ref={ref} id="cardScene" className={show ? "show" : ""} aria-label="Wedding invitation card">
 
-      {/* awaaz band/chalu — hamesha pahunch mein rehta hai */}
-      {hero.media?.type === "video" && !scrubbing && (
-        <button
-          className={`sound-toggle${soundOn ? " on" : ""}`}
-          onClick={toggleSound}
-          aria-label={soundOn ? "Turn sound off" : "Turn sound on"}
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 9.5h3.2L12 5.4v13.2L7.2 14.5H4z" />
-            {soundOn ? (
-              <>
-                <path d="M15.4 9.2a4 4 0 0 1 0 5.6" fill="none" strokeWidth="1.7" strokeLinecap="round" />
-                <path d="M17.8 6.8a7.4 7.4 0 0 1 0 10.4" fill="none" strokeWidth="1.7" strokeLinecap="round" />
-              </>
-            ) : (
-              <path d="M15.6 9.6l4.8 4.8M20.4 9.6l-4.8 4.8" fill="none" strokeWidth="1.7" strokeLinecap="round" />
-            )}
-          </svg>
-        </button>
-      )}
 
 
       {/* ---------- HERO (background video + upar text) ----------
@@ -272,7 +228,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
             {hero.media.type === "video" ? (
               <video
                 ref={videoRef}
-                data-hero=""
                 // scrub mode mein src tab lagti hai jab poori file utar chuki ho
                 src={scrubbing ? scrubSrc ?? undefined : hero.media.src}
                 poster={hero.poster || undefined}

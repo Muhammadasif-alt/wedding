@@ -27,18 +27,21 @@ export const invitation = {
     // Video:  { type: "video", src: "/videos/hero.mp4" }
     // Photo:  { type: "image", src: "/photos/couple.jpg" }
     // Kuch nahi (sirf cream background): null
-    media: { type: "video", src: "/videos/hero-main.mp4" } as null | {
+    media: { type: "video", src: "/videos/hero-scrub.mp4" } as null | {
       type: "image" | "video";
       src: string;
     },
 
     // SCRUB — true karo tou video scroll ke sath aage barhti hai (khud nahi chalti),
     // aur text aakhir mein aa kar thehar jata hai. false = normal loop video.
-    //
-    // ABHI false HAI — kyunki video mein awaaz hai. Scroll-scrub mein browser video ko
-    // "seek" karta hai, chalata nahi, aur seek mein awaaz aati hi nahi. Sound chahiye
-    // tou video ka normal chalna zaroori hai. Scrub wapas chahiye tou sound chala jayega.
-    scrub: false,
+    scrub: true,
+
+    // AWAAZ — scrub mein browser video ko "seek" karta hai, chalata nahi, aur seek
+    // mein awaaz aati hi nahi. Is liye video ki awaaz alag file mein nikaal kar
+    // yahan se chalate hain — seal tap karte hi shuru hoti hai aur chalti rehti hai.
+    // Awaaz apni raftaar se chalti hai, scroll ke sath nahi — dono ek sath mumkin nahi.
+    // "" kar do tou koi awaaz nahi.
+    audio: "/audio/hero.m4a",
     // Hero kitni screen jitna lamba ho — poori video isi lambai mein chalti hai.
     // Zyada number = video dheere chalegi (zyada scroll lagega).
     scrubScreens: 4,
