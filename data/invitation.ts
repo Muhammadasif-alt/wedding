@@ -98,9 +98,9 @@ export const invitation = {
     veil: 0.58,
     note: "Your presence will make our special day complete. Please let us know by 1 October 2026.",
 
-    // !!! ZAROORI !!! Yeh abhi nakli number hai — apna asli WhatsApp number daalo,
-    // country code ke sath aur bina + ke. Warna form ka jawab kisi ko nahi pahunchega.
-    whatsappNumber: "923000000000",
+    // WhatsApp number — country code ke sath, bina + aur bina space ke
+    // (+92 309 7313407)
+    whatsappNumber: "923097313407",
   },
 };
 
