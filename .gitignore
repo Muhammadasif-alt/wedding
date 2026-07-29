@@ -20,6 +20,9 @@
 .DS_Store
 *.pem
 
+# raw video jisse hero-scrub.mp4 banti hai — repo mein iski zaroorat nahi
+/public/videos/walkthrough.mp4
+
 # debug
 npm-debug.log*
 yarn-debug.log*

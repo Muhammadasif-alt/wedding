@@ -161,6 +161,25 @@ body{
   /* neeche kaafi jagah taake text scroll cue ke upar na chadhe */
   padding:78px 26px 124px;
 }
+/* ---- SCRUB HERO ----
+   section lamba hota hai; andar wali screen sticky reh kar scroll ke sath video chalati hai.
+   .hero.scrub pe overflow:hidden mat lagana — usse sticky kaam karna chhod deta hai */
+.hero.scrub{display:block;padding:0;min-height:0;overflow:visible;background:#1b1226}
+/* normal mode mein yeh wrapper layout ko chhoota bhi nahi */
+.hero-stick{
+  width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+}
+.hero.scrub .hero-stick{position:sticky;top:0;overflow:hidden;padding:78px 26px 124px}
+/* text scroll ke aakhri hisse mein aata hai (--reveal 0 se 1, JS set karta hai) */
+.hero.scrub .hero-inner{
+  opacity:var(--reveal,0);
+  transform:translateY(calc((1 - var(--reveal,0)) * 26px));
+}
+/* scroll cue shuru mein dikhta hai, scrub barhte hi ghayab */
+.hero.scrub .scroll-cue{opacity:calc(1 - var(--p,0) * 3.5)}
+
 .hero-frame{position:absolute;inset:12px;border:1px solid rgba(122,107,134,.35);border-radius:4px;pointer-events:none;z-index:2}
 .hero-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(122,107,134,.2);border-radius:2px}
 .corner-bloom{position:absolute;width:110px;opacity:.55;pointer-events:none}

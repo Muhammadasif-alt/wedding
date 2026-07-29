@@ -25,19 +25,99 @@ function HeartMark() {
 const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, ref) {
   const { couple, weddingDate, hero, celebration, events, moments, gallery, venue, rsvp } = invitation;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+  const heroStickRef = useRef<HTMLDivElement>(null);
   const venueRef = useRef<HTMLElement>(null);
   const venueVideoRef = useRef<HTMLVideoElement>(null);
+
+  const reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // reduce-motion wale logon ke liye scrub band — unhein normal loop video milti hai
+  const scrubbing =
+    invitation.hero.scrub && invitation.hero.media?.type === "video" && !reducedMotion;
   // background sirf tab lagta hai jab file waqai maujood ho
   const hasCelebrationBg = useImageReady(invitation.celebration.bg);
   const hasMomentsBg = useImageReady(invitation.moments.bg);
 
-  // card dikhte hi hero ki video chalao (kuch mobile browsers khud start nahi karte)
+  // card dikhte hi hero ki video chalao (kuch mobile browsers khud start nahi karte).
+  // scrub mode mein video khud nahi chalti — scroll usay aage barhata hai.
   useEffect(() => {
     const v = videoRef.current;
-    if (!v) return;
+    if (!v || scrubbing) return;
     if (show) v.play().catch(() => {});
     else v.pause();
-  }, [show]);
+  }, [show, scrubbing]);
+
+  // ---- SCROLL SCRUB ----
+  // scroll ki position se video ka frame nikalta hai. Seedha currentTime set karne se
+  // jhatke lagte hain, is liye har frame thora thora target ki taraf sarakta hai.
+  useEffect(() => {
+    if (!scrubbing || !show) return;
+    const v = videoRef.current;
+    const track = heroRef.current;
+    const stick = heroStickRef.current;
+    const scroller = track?.closest<HTMLElement>("#cardScene");
+    if (!v || !track || !stick || !scroller) return;
+
+    let target = 0;
+    let current = 0;
+    let raf = 0;
+    let seeking = false;
+
+    const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
+    const measure = () => {
+      const span = track.offsetHeight - scroller.clientHeight;
+      const p = span > 0 ? clamp01((scroller.scrollTop - track.offsetTop) / span) : 0;
+
+      stick.style.setProperty("--p", String(p));
+      // text aakhri hisse mein aa kar thehar jata hai
+      stick.style.setProperty("--reveal", String(clamp01((p - 0.58) / 0.3)));
+
+      if (v.duration) target = p * v.duration;
+    };
+
+    const tick = () => {
+      raf = requestAnimationFrame(tick);
+      if (!v.duration) return;
+      current += (target - current) * 0.14;
+      if (Math.abs(target - current) < 0.005) current = target;
+      // pichli seek poori hone se pehle nayi mat bhejo, warna video atakti hai
+      if (!seeking && Math.abs(v.currentTime - current) > 0.01) {
+        seeking = true;
+        v.currentTime = current;
+      }
+    };
+
+    const onSeeked = () => {
+      seeking = false;
+    };
+
+    v.pause();
+    v.addEventListener("seeked", onSeeked);
+    scroller.addEventListener("scroll", measure, { passive: true });
+    window.addEventListener("resize", measure);
+    if (v.readyState >= 1) measure();
+    else v.addEventListener("loadedmetadata", measure, { once: true });
+    raf = requestAnimationFrame(tick);
+
+    // iOS par kuch devices seeking se pehle ek play/pause maangte hain
+    const unlock = () => {
+      const p = v.play();
+      if (p) p.then(() => v.pause()).catch(() => {});
+      window.removeEventListener("touchstart", unlock);
+    };
+    window.addEventListener("touchstart", unlock, { passive: true, once: true });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      v.removeEventListener("seeked", onSeeked);
+      scroller.removeEventListener("scroll", measure);
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("touchstart", unlock);
+    };
+  }, [scrubbing, show]);
 
   // venue ki video sirf tab chalti hai jab wo section screen pe aata hai —
   // warna neeche padi 4MB ki video mobile data khaati rehti
@@ -68,8 +148,19 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
   return (
     <div ref={ref} id="cardScene" className={show ? "show" : ""} aria-label="Wedding invitation card">
 
-      {/* ---------- HERO (background video + upar text) ---------- */}
-      <section className={`sec hero${hero.media ? " on-media" : ""}`}>
+      {/* ---------- HERO (background video + upar text) ----------
+          scrub mode: section lamba hota hai, andar wali screen sticky reh kar
+          scroll ke sath video aage barhati hai */}
+      <section
+        ref={heroRef}
+        className={`sec hero${hero.media ? " on-media" : ""}${scrubbing ? " scrub" : ""}`}
+        style={scrubbing ? { height: `${hero.scrubScreens * 100}%` } : undefined}
+      >
+      <div
+        ref={heroStickRef}
+        className="hero-stick"
+        style={scrubbing ? { height: `${100 / hero.scrubScreens}%` } : undefined}
+      >
         {/* background video / photo */}
         {hero.media && (
           <div className="hero-bg">
@@ -78,9 +169,9 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
                 ref={videoRef}
                 src={hero.media.src}
                 poster={hero.poster || undefined}
-                autoPlay
+                autoPlay={!scrubbing}
                 muted
-                loop
+                loop={!scrubbing}
                 playsInline
                 preload="auto"
               />
@@ -139,6 +230,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
           Scroll
           <div className="mouse" />
         </div>
+      </div>
       </section>
 
       {/* ---------- COUNTDOWN ---------- */}

@@ -27,10 +27,23 @@ export const invitation = {
     // Video:  { type: "video", src: "/videos/hero.mp4" }
     // Photo:  { type: "image", src: "/photos/couple.jpg" }
     // Kuch nahi (sirf cream background): null
-    media: { type: "video", src: "/videos/hero-bg.mp4" } as null | {
+    media: { type: "video", src: "/videos/hero-scrub.mp4" } as null | {
       type: "image" | "video";
       src: string;
     },
+
+    // SCRUB — true karo tou video scroll ke sath aage barhti hai (khud nahi chalti),
+    // aur text aakhir mein aa kar thehar jata hai. false = normal loop video.
+    scrub: true,
+    // Hero kitni screen jitna lamba ho — poori video isi lambai mein chalti hai.
+    // Zyada number = video dheere chalegi (zyada scroll lagega).
+    scrubScreens: 3.2,
+
+    // Nayi video daalni ho tou pehle usay scrub ke liye taiyar kar lena, warna
+    // scroll pe atak atak kar chalegi (har 4 frame pe keyframe chahiye):
+    //   ffmpeg -i meri-video.mp4 -an -vf "scale=1280:-2" -c:v libx264 \
+    //          -crf 26 -g 4 -preset slow -movflags +faststart hero-scrub.mp4
+
     // Video load hone tak jo photo dikhe (optional) — "" tou kuch nahi
     poster: "",
     // Video ke upar kitna dark parda ho — 0 (bilkul saaf) se 1 (bohat dark)
