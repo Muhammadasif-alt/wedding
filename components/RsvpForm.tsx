@@ -11,7 +11,6 @@ export default function RsvpForm() {
   const { rsvp, couple } = invitation;
 
   const [name, setName] = useState("");
-  const [guests, setGuests] = useState("1");
   const [attending, setAttending] = useState<"yes" | "no">("yes");
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
@@ -30,7 +29,6 @@ export default function RsvpForm() {
       `Name: ${name.trim()}`,
       `Attending: ${attending === "yes" ? "Yes, In sha Allah" : "Sorry, cannot make it"}`,
     ];
-    if (attending === "yes") lines.push(`Guests: ${guests}`);
     if (message.trim()) lines.push(`Message: ${message.trim()}`);
 
     const url = `https://wa.me/${rsvp.whatsappNumber}?text=${encodeURIComponent(lines.join("\n"))}`;
@@ -89,19 +87,6 @@ export default function RsvpForm() {
           </button>
         </div>
       </fieldset>
-
-      {attending === "yes" && (
-        <label className="field">
-          <span>How many of you?</span>
-          <select value={guests} onChange={(e) => setGuests(e.target.value)}>
-            {["1", "2", "3", "4", "5", "6 or more"].map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
-        </label>
-      )}
 
       <label className="field">
         <span>A note for us (optional)</span>
