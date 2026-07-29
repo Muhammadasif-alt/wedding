@@ -2,7 +2,7 @@
 
 // Poora invitation card — hero, countdown, events, venue, RSVP
 
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { invitation } from "@/data/invitation";
 import { Bloom } from "./Florals";
 import { useImageReady } from "@/hooks/useImageReady";
@@ -31,9 +31,16 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
   const venueRef = useRef<HTMLElement>(null);
   const venueVideoRef = useRef<HTMLVideoElement>(null);
 
-  const reducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [scrubSrc, setScrubSrc] = useState<string | null>(null);
+  const [loadPct, setLoadPct] = useState(0);
+
+  // render ke doran matchMedia parhne se server aur client ka pehla render alag
+  // ho sakta hai — is liye mount ke baad set karte hain
+  const [reducedMotion, setReducedMotion] = useState(false);
+  useEffect(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
   // reduce-motion wale logon ke liye scrub band — unhein normal loop video milti hai
   const scrubbing =
     invitation.hero.scrub && invitation.hero.media?.type === "video" && !reducedMotion;
@@ -49,6 +56,58 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
     if (show) v.play().catch(() => {});
     else v.pause();
   }, [show, scrubbing]);
+
+  // ---- SCRUB VIDEO KI POORI LOADING ----
+  // Seedha <video src> lagane se browser sirf utna hissa laata hai jitni zaroorat ho.
+  // Scroll pe peeche-aage jaate waqt har seek naye hisse ka intezar karti hai — wahi
+  // atkav ka asli sabab hai. Is liye poori file pehle memory mein utaar lete hain,
+  // phir seek foran hoti hai. Yeh envelope khulne se pehle hi shuru ho jata hai.
+  useEffect(() => {
+    const src = invitation.hero.media?.src;
+    if (!scrubbing || !src) return;
+
+    let objectUrl: string | null = null;
+    const ctrl = new AbortController();
+
+    (async () => {
+      try {
+        const res = await fetch(src, { signal: ctrl.signal });
+        const total = Number(res.headers.get("content-length")) || 0;
+
+        if (!res.body || !total) {
+          const blob = await res.blob();
+          objectUrl = URL.createObjectURL(blob);
+          setLoadPct(1);
+          setScrubSrc(objectUrl);
+          return;
+        }
+
+        const reader = res.body.getReader();
+        const chunks: BlobPart[] = [];
+        let got = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value as unknown as BlobPart);
+          got += value.length;
+          setLoadPct(got / total);
+        }
+        objectUrl = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
+        setScrubSrc(objectUrl);
+      } catch {
+        // download na ho saka — seedha URL se hi chala lo, kam se kam kuch tou chale
+        if (!ctrl.signal.aborted) {
+          setLoadPct(1);
+          setScrubSrc(src);
+        }
+      }
+    })();
+
+    return () => {
+      ctrl.abort();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [scrubbing]);
 
   // ---- SCROLL SCRUB ----
   // scroll ki position se video ka frame nikalta hai. Seedha currentTime set karne se
@@ -167,7 +226,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
             {hero.media.type === "video" ? (
               <video
                 ref={videoRef}
-                src={hero.media.src}
+                // scrub mode mein src tab lagti hai jab poori file utar chuki ho
+                src={scrubbing ? scrubSrc ?? undefined : hero.media.src}
                 poster={hero.poster || undefined}
                 autoPlay={!scrubbing}
                 muted
@@ -180,6 +240,14 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
               <img src={hero.media.src} alt={couple.shortNames} />
             )}
             <div className="video-veil" style={{ "--veil": hero.veil } as React.CSSProperties} />
+          </div>
+        )}
+
+        {/* video utarne tak patli si lakeer — warna scroll karne par kuch hota
+            hua nazar nahi aata aur lagta hai ke kuch toota hua hai */}
+        {scrubbing && !scrubSrc && (
+          <div className="hero-loading" aria-hidden="true">
+            <span style={{ transform: `scaleX(${Math.max(loadPct, 0.03)})` }} />
           </div>
         )}
 

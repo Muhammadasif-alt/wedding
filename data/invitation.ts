@@ -44,8 +44,8 @@ export const invitation = {
     //   ffmpeg -i meri-video.mp4 -an -vf "scale=1280:-2" -c:v libx264 \
     //          -crf 26 -g 4 -preset slow -movflags +faststart hero-scrub.mp4
 
-    // Video load hone tak jo photo dikhe (optional) — "" tou kuch nahi
-    poster: "",
+    // Video load hone tak jo photo dikhe — video ka pehla frame
+    poster: "/photos/hero-poster.jpg",
     // Video ke upar kitna dark parda ho — 0 (bilkul saaf) se 1 (bohat dark)
     veil: 0.62,
     // Video ke upar likha jane wala text

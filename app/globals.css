@@ -195,6 +195,16 @@ body{
   opacity:var(--reveal,0);
   transform:translateY(calc((1 - var(--reveal,0)) * 26px));
 }
+/* video utarne ki patli lakeer — hero ke bilkul neeche */
+.hero-loading{
+  position:absolute;left:0;right:0;bottom:0;height:2px;z-index:3;
+  background:rgba(255,250,242,.14);overflow:hidden;
+}
+.hero-loading span{
+  display:block;width:100%;height:100%;transform-origin:left center;
+  background:linear-gradient(90deg,var(--gold-lo),var(--gold-hi));
+  transition:transform .3s ease;
+}
 
 .hero-frame{position:absolute;inset:12px;border:1px solid rgba(122,107,134,.35);border-radius:4px;pointer-events:none;z-index:2}
 .hero-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(122,107,134,.2);border-radius:2px}
