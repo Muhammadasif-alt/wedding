@@ -20,8 +20,9 @@
 .DS_Store
 *.pem
 
-# raw video jisse hero-scrub.mp4 banti hai — repo mein iski zaroorat nahi
+# raw videos jinse hero-scrub.mp4 banti hai — repo mein inki zaroorat nahi
 /public/videos/walkthrough.mp4
+/public/videos/wajih_hero.mov
 
 # debug
 npm-debug.log*

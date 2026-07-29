@@ -37,7 +37,7 @@ export const invitation = {
     scrub: true,
     // Hero kitni screen jitna lamba ho — poori video isi lambai mein chalti hai.
     // Zyada number = video dheere chalegi (zyada scroll lagega).
-    scrubScreens: 3.2,
+    scrubScreens: 4.5,
 
     // Nayi video daalni ho tou pehle usay scrub ke liye taiyar kar lena, warna
     // scroll pe atak atak kar chalegi (har 4 frame pe keyframe chahiye):
