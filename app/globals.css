@@ -177,8 +177,6 @@ body{
   opacity:var(--reveal,0);
   transform:translateY(calc((1 - var(--reveal,0)) * 26px));
 }
-/* scroll cue shuru mein dikhta hai, scrub barhte hi ghayab */
-.hero.scrub .scroll-cue{opacity:calc(1 - var(--p,0) * 3.5)}
 
 .hero-frame{position:absolute;inset:12px;border:1px solid rgba(122,107,134,.35);border-radius:4px;pointer-events:none;z-index:2}
 .hero-frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(122,107,134,.2);border-radius:2px}
@@ -266,21 +264,7 @@ body{
 .hero.on-media .person-meta{color:rgba(250,244,235,.8);text-shadow:0 1px 10px rgba(0,0,0,.6)}
 .hero.on-media .hero-date{color:#fdf6ea;text-shadow:0 2px 14px rgba(0,0,0,.65)}
 .hero.on-media .hero-sub{color:rgba(250,244,235,.72);text-shadow:0 1px 10px rgba(0,0,0,.6)}
-.hero.on-media .scroll-cue{color:rgba(250,244,235,.8);text-shadow:0 1px 10px rgba(0,0,0,.6)}
-.hero.on-media .scroll-cue .mouse{border-color:rgba(250,244,235,.75)}
-.hero.on-media .scroll-cue .mouse::after{background:rgba(250,244,235,.9)}
 
-.scroll-cue{
-  position:absolute;bottom:14px;left:0;right:0;z-index:2;
-  font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.35em;text-indent:.35em;
-  text-transform:uppercase;color:var(--ink-soft);
-}
-.scroll-cue .mouse{width:20px;height:32px;border:1.5px solid var(--ink-soft);border-radius:12px;margin:10px auto 0;position:relative}
-.scroll-cue .mouse::after{
-  content:"";position:absolute;left:50%;top:6px;width:3px;height:7px;
-  background:var(--ink-soft);border-radius:3px;transform:translateX(-50%);
-  animation:wheel 1.6s ease-in-out infinite;
-}
 /* chhoti screens pe hero ka text thora compact */
 @media (max-height:760px){
   .hero{padding:60px 24px 110px}
@@ -291,7 +275,6 @@ body{
   .hero-sub{margin-top:12px;font-size:.68rem;letter-spacing:.22em}
   .hero-inner>.heart-mark{margin-bottom:10px}
 }
-@keyframes wheel{0%{opacity:1;top:6px}70%{opacity:0;top:16px}100%{opacity:0;top:6px}}
 
 .script-title{font-family:'Great Vibes',cursive;font-size:2.3rem;color:var(--ink);margin-bottom:8px}
 .sec-sub{
@@ -421,6 +404,63 @@ body{
 .btn.ghost:hover{background:rgba(74,59,82,.06)}
 
 .rsvp-note{font-size:1.05rem;font-style:italic;line-height:1.8;max-width:270px;color:var(--ink)}
+
+/* ---- RSVP FORM ---- */
+.rsvp-form{
+  width:100%;max-width:330px;margin-top:26px;text-align:left;
+  background:rgba(255,255,255,.72);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.8);border-radius:10px;
+  box-shadow:0 16px 44px rgba(126,100,74,.18);
+  padding:24px 22px 26px;
+}
+.field{display:block;margin-bottom:18px}
+.field > span,.field legend{
+  display:block;margin-bottom:7px;
+  font-family:'Jost',sans-serif;font-weight:300;
+  font-size:.6rem;letter-spacing:.26em;text-indent:.26em;
+  text-transform:uppercase;color:var(--ink-soft);
+}
+.field input,.field select,.field textarea{
+  width:100%;display:block;
+  font-family:'Cormorant Garamond',serif;font-size:1.02rem;color:var(--ink);
+  background:rgba(255,255,255,.55);
+  border:1px solid rgba(122,107,134,.28);border-radius:4px;
+  padding:11px 12px;resize:none;
+  transition:border-color .25s, background .25s;
+}
+.field input::placeholder,.field textarea::placeholder{color:rgba(125,110,138,.6)}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--gold-lo);background:#fff;
+}
+.field input[aria-invalid="true"]{border-color:#b9736f}
+.field-error{
+  margin:-12px 0 16px;
+  font-family:'Jost',sans-serif;font-weight:300;font-size:.68rem;
+  letter-spacing:.1em;color:#a35f5b;
+}
+.field.choice{border:none;padding:0}
+.choice-row{display:flex;gap:8px}
+.chip{
+  flex:1;cursor:pointer;
+  font-family:'Jost',sans-serif;font-weight:300;font-size:.64rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-soft);background:rgba(255,255,255,.5);
+  border:1px solid rgba(122,107,134,.28);border-radius:4px;
+  padding:11px 6px;line-height:1.35;
+  transition:all .25s;
+}
+.chip.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.rsvp-form .btn{width:100%;margin-top:4px;text-align:center}
+
+/* form bhejne ke baad ka shukriya */
+.rsvp-done{width:100%;max-width:330px;margin-top:26px}
+.rsvp-done-line{font-family:'Great Vibes',cursive;font-size:2rem;color:var(--ink)}
+.rsvp-done-sub{
+  margin-top:10px;font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:.98rem;line-height:1.7;color:var(--ink-soft);
+}
+.rsvp-done .close-link{margin-top:20px}
 
 /* ---- closing note ---- */
 .farewell{margin-top:52px;display:flex;flex-direction:column;align-items:center}

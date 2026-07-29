@@ -7,6 +7,7 @@ import { invitation } from "@/data/invitation";
 import { Bloom } from "./Florals";
 import { useImageReady } from "@/hooks/useImageReady";
 import Countdown from "./Countdown";
+import RsvpForm from "./RsvpForm";
 
 type Props = {
   show: boolean;
@@ -38,6 +39,7 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
     invitation.hero.scrub && invitation.hero.media?.type === "video" && !reducedMotion;
   // background sirf tab lagta hai jab file waqai maujood ho
   const hasCelebrationBg = useImageReady(invitation.celebration.bg);
+  const hasRsvpBg = useImageReady(invitation.rsvp.bg);
 
   // card dikhte hi hero ki video chalao (kuch mobile browsers khud start nahi karte).
   // scrub mode mein video khud nahi chalti — scroll usay aage barhata hai.
@@ -70,7 +72,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
       const span = track.offsetHeight - scroller.clientHeight;
       const p = span > 0 ? clamp01((scroller.scrollTop - track.offsetTop) / span) : 0;
 
-      stick.style.setProperty("--p", String(p));
       // text aakhri hisse mein aa kar thehar jata hai
       stick.style.setProperty("--reveal", String(clamp01((p - 0.58) / 0.3)));
 
@@ -140,7 +141,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
     return () => io.disconnect();
   }, [show]);
 
-  const waLink = `https://wa.me/${rsvp.whatsappNumber}?text=${encodeURIComponent(rsvp.whatsappMessage)}`;
 
   return (
     <div ref={ref} id="cardScene" className={show ? "show" : ""} aria-label="Wedding invitation card">
@@ -223,10 +223,6 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
           <p className="hero-sub rv" style={{ "--d": ".78s" } as React.CSSProperties}>{hero.footer}</p>
         </div>
 
-        <div className="scroll-cue">
-          Scroll
-          <div className="mouse" />
-        </div>
       </div>
       </section>
 
@@ -285,13 +281,17 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
       </section>
 
       {/* ---------- RSVP ---------- */}
-      <section className="sec">
+      <section className={`sec${hasRsvpBg ? " on-photo" : ""}`}>
+        {hasRsvpBg && (
+          <div className="sec-bg" style={{ backgroundImage: `url("${rsvp.bg}")` }}>
+            <div className="sec-veil" style={{ "--veil": rsvp.veil } as React.CSSProperties} />
+          </div>
+        )}
         <h2 className="script-title rv">RSVP</h2>
         <div className="sec-sub rv" style={{ "--d": ".1s" } as React.CSSProperties}>Kindly confirm your presence</div>
         <p className="rsvp-note rv" style={{ "--d": ".18s" } as React.CSSProperties}>{rsvp.note}</p>
-        <a className="btn rv" style={{ "--d": ".28s" } as React.CSSProperties} href={waLink} target="_blank" rel="noopener noreferrer">
-          Confirm on WhatsApp
-        </a>
+
+        <RsvpForm />
 
         {/* aakhri hissa — pehle yahan ek khaali sa "close" button tha,
             ab ek proper closing note hai aur band karne ka option chhota rakha hai */}

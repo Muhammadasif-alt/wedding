@@ -94,10 +94,13 @@ export const invitation = {
   },
 
   rsvp: {
+    bg: "/photos/rsvp.jpg", // background image; "" = saada cream
+    veil: 0.58,
     note: "Your presence will make our special day complete. Please let us know by 1 October 2026.",
-    whatsappNumber: "923000000000", // apna number, country code ke sath, bina + ke
-    whatsappMessage:
-      "Assalam o Alaikum! I would love to attend the wedding of Wajhi & Mubdha.",
+
+    // !!! ZAROORI !!! Yeh abhi nakli number hai — apna asli WhatsApp number daalo,
+    // country code ke sath aur bina + ke. Warna form ka jawab kisi ko nahi pahunchega.
+    whatsappNumber: "923000000000",
   },
 };
 
