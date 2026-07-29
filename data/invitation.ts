@@ -11,10 +11,10 @@ export const invitation = {
 
     bride: "Meher Zadi Mubda",
     // Dulhan ki 2 chhoti lines
-    brideParents: "Daughter of Mr. & Mrs. Mubda",
+    brideParents: "Daughter of Meherzada Tariq",
     brideTitle: "",
 
-    shortNames: "Wajhi & Mubda", // chhota naam (photo alt text waghera ke liye)
+    shortNames: "Wajih & Mubda", // chhota naam (farewell aur RSVP message mein aata hai)
   },
 
   // Main wedding date (hero + countdown iss se chalta hai)
@@ -27,14 +27,18 @@ export const invitation = {
     // Video:  { type: "video", src: "/videos/hero.mp4" }
     // Photo:  { type: "image", src: "/photos/couple.jpg" }
     // Kuch nahi (sirf cream background): null
-    media: { type: "video", src: "/videos/hero-scrub.mp4" } as null | {
+    media: { type: "video", src: "/videos/hero-main.mp4" } as null | {
       type: "image" | "video";
       src: string;
     },
 
     // SCRUB — true karo tou video scroll ke sath aage barhti hai (khud nahi chalti),
     // aur text aakhir mein aa kar thehar jata hai. false = normal loop video.
-    scrub: true,
+    //
+    // ABHI false HAI — kyunki video mein awaaz hai. Scroll-scrub mein browser video ko
+    // "seek" karta hai, chalata nahi, aur seek mein awaaz aati hi nahi. Sound chahiye
+    // tou video ka normal chalna zaroori hai. Scrub wapas chahiye tou sound chala jayega.
+    scrub: false,
     // Hero kitni screen jitna lamba ho — poori video isi lambai mein chalti hai.
     // Zyada number = video dheere chalegi (zyada scroll lagega).
     scrubScreens: 4,

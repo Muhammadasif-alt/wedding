@@ -24,6 +24,9 @@
   --rose:#eab4bf;
   --rose-lo:#d998a7;
   --rose-gold:#a8763a;
+  /* dil ka rang — cream par gehra gulabi-surkh, video par thora roshan */
+  --heart:#c2445c;
+  --heart-hi:#e05c74;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
@@ -165,6 +168,21 @@ body{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
 }
 
+/* awaaz ka button — card ke kone mein tehra rehta hai */
+.sound-toggle{
+  position:sticky;top:14px;float:right;margin-right:14px;
+  z-index:6;width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,250,242,.32);border-radius:50%;
+  background:rgba(30,20,42,.42);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  cursor:pointer;transition:background .25s, border-color .25s;
+}
+.sound-toggle:hover{background:rgba(30,20,42,.6)}
+.sound-toggle svg{width:19px;height:19px;fill:rgba(255,250,242,.9);stroke:rgba(255,250,242,.9)}
+.sound-toggle.on{border-color:rgba(239,220,184,.6)}
+.sound-toggle.on svg{fill:var(--gold-hi);stroke:var(--gold-hi)}
+
 .sec{
   min-height:100%;padding:64px 28px 72px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -239,7 +257,7 @@ body{
   position:relative;z-index:1;width:100%;
   display:flex;flex-direction:column;align-items:center;
 }
-.heart-mark{width:13px;height:13px;display:block;fill:var(--gold);flex:none}
+.heart-mark{width:13px;height:13px;display:block;fill:var(--heart);flex:none}
 .hero-inner>.heart-mark{width:17px;height:17px;margin-bottom:16px;opacity:.95}
 
 .hero-welcome{
@@ -290,7 +308,7 @@ body{
 .hero.on-media{background:#1b1226}
 .hero.on-media .hero-frame{inset:14px;border-color:rgba(239,220,184,.42)}
 .hero.on-media .hero-frame::before{border-color:rgba(239,220,184,.2)}
-.hero.on-media .heart-mark{fill:var(--gold-hi)}
+.hero.on-media .heart-mark{fill:var(--heart-hi)}
 .hero.on-media .rule::before{background:linear-gradient(90deg,transparent,rgba(239,220,184,.85))}
 .hero.on-media .rule::after{background:linear-gradient(90deg,rgba(239,220,184,.85),transparent)}
 .hero.on-media .hero-welcome{color:rgba(255,250,242,.9);text-shadow:0 2px 14px rgba(0,0,0,.6)}

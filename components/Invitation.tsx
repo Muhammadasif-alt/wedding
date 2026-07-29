@@ -18,6 +18,19 @@ export default function Invitation() {
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const handleOpen = () => {
+    // Awaaz yahin, seal ke tap par, chalani zaroori hai — browser sirf seedhe
+    // user gesture par sound ki ijazat deta hai. 550ms baad timeout ke andar
+    // karte tou gesture ka silsila toot jata aur awaaz block ho jati.
+    const v = document.querySelector<HTMLVideoElement>("video[data-hero]");
+    if (v) {
+      v.muted = false;
+      v.play().catch(() => {
+        // browser ne mana kar diya — kam se kam video tou chale
+        v.muted = true;
+        v.play().catch(() => {});
+      });
+    }
+
     setOpened(true);
     // envelope pehle aaram se paas aata hai, phir ghulna shuru karta hai — theek ussi
     // waqt card apni jagah settle hota hai, is liye beech mein koi khaali screen nahi aati
