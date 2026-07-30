@@ -54,7 +54,7 @@ export const invitation = {
     // Video load hone tak jo photo dikhe — video ka pehla frame
     poster: "/photos/hero-poster.jpg",
     // Video ke upar kitna dark parda ho — 0 (bilkul saaf) se 1 (bohat dark)
-    veil: 0.62,
+    veil: 0.68,
     // Video ke upar likha jane wala text
     welcome: "We are honored to welcome you to the wedding ceremony of",
     footer: "Together with their families",
@@ -66,7 +66,7 @@ export const invitation = {
     // Koi background nahi chahiye tou "" kar do (saada cream background rahega)
     bg: "/photos/countdown.jpg",
     // Image ke upar kitna cream parda ho taake text saaf parha jaye — 0 se 1
-    veil: 0.55,
+    veil: 0.62,
     title: "Countdown",
     sub: "We can't wait for this moment",
   },
@@ -74,7 +74,7 @@ export const invitation = {
   // ---------- OUR CELEBRATION (event card) ----------
   celebration: {
     bg: "/photos/celebration.jpg", // background image; "" = saada cream
-    veil: 0.4,
+    veil: 0.55,
     title: "Our Celebration",
     sub: "We would love to have you with us",
   },

@@ -316,11 +316,29 @@ body{
 .hero.on-media .heart-mark{fill:var(--heart-hi)}
 .hero.on-media .rule::before{background:linear-gradient(90deg,transparent,rgba(239,220,184,.85))}
 .hero.on-media .rule::after{background:linear-gradient(90deg,rgba(239,220,184,.85),transparent)}
-.hero.on-media .hero-welcome{color:rgba(255,250,242,.9);text-shadow:0 2px 14px rgba(0,0,0,.6)}
-.hero.on-media .names{color:#fffaf1;text-shadow:0 2px 22px rgba(0,0,0,.65),0 0 42px rgba(211,183,138,.35)}
-.hero.on-media .person-meta{color:rgba(250,244,235,.8);text-shadow:0 1px 10px rgba(0,0,0,.6)}
-.hero.on-media .hero-date{color:#fdf6ea;text-shadow:0 2px 14px rgba(0,0,0,.65)}
-.hero.on-media .hero-sub{color:rgba(250,244,235,.72);text-shadow:0 1px 10px rgba(0,0,0,.6)}
+/* Video ke roshan frames par halka cream text gum ho jata tha. Ab poora opaque
+   hai, aur do shadow lagti hain: ek tang (harf ke kinare saaf karti hai) aur ek
+   khuli (peeche ka shor daba deti hai). Sirf khuli shadow kaafi nahi thi. */
+.hero.on-media .hero-welcome{
+  color:#fffaf3;
+  text-shadow:0 1px 3px rgba(0,0,0,.8), 0 2px 18px rgba(0,0,0,.65);
+}
+.hero.on-media .names{
+  color:#fffaf1;
+  text-shadow:0 1px 4px rgba(0,0,0,.7), 0 2px 24px rgba(0,0,0,.7), 0 0 42px rgba(211,183,138,.3);
+}
+.hero.on-media .person-meta{
+  color:#fdf6ea;font-weight:500;
+  text-shadow:0 1px 3px rgba(0,0,0,.85), 0 2px 16px rgba(0,0,0,.7);
+}
+.hero.on-media .hero-date{
+  color:#fffaf3;
+  text-shadow:0 1px 3px rgba(0,0,0,.8), 0 2px 18px rgba(0,0,0,.7);
+}
+.hero.on-media .hero-sub{
+  color:#f8f1e6;font-weight:400;
+  text-shadow:0 1px 3px rgba(0,0,0,.85), 0 2px 16px rgba(0,0,0,.7);
+}
 
 /* chhoti screens pe hero ka text thora compact.
    Desktop par card khud 92vh ka hota hai, is liye wahan threshold thora upar
@@ -384,6 +402,12 @@ body{
 .sec.on-photo .farewell-names,
 .sec.on-photo .close-link{
   text-shadow:0 1px 12px rgba(250,246,239,.9), 0 1px 3px rgba(250,246,239,.95);
+}
+/* sec-sub asal mein bohat halka hai (weight 300 + ink-soft + khuli spacing) —
+   busy photo par gayab ho jata tha, is liye yahan gehra aur thora bhara kiya */
+.sec.on-photo .sec-sub{
+  color:var(--ink);font-weight:400;
+  text-shadow:0 1px 14px rgba(250,246,239,.95), 0 1px 3px rgba(250,246,239,1);
 }
 /* saara content image ke upar */
 .sec.on-photo > *:not(.sec-bg){position:relative;z-index:1}
@@ -456,9 +480,18 @@ body{
 }
 .sec.on-video > *:not(.sec-video){position:relative;z-index:1}
 .sec.on-video .script-title{color:#fffaf1;text-shadow:0 2px 22px rgba(0,0,0,.6)}
-.sec.on-video .sec-sub{color:rgba(250,244,235,.76);text-shadow:0 1px 10px rgba(0,0,0,.6)}
-.sec.on-video .venue-name{color:#fffaf1;text-shadow:0 2px 20px rgba(0,0,0,.65)}
-.sec.on-video .venue-addr{color:rgba(250,244,235,.8);text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.sec.on-video .sec-sub{
+  color:#f8f1e6;font-weight:400;
+  text-shadow:0 1px 3px rgba(0,0,0,.85), 0 2px 16px rgba(0,0,0,.7);
+}
+.sec.on-video .venue-name{
+  color:#fffaf1;
+  text-shadow:0 1px 4px rgba(0,0,0,.7), 0 2px 22px rgba(0,0,0,.7);
+}
+.sec.on-video .venue-addr{
+  color:#fdf6ea;
+  text-shadow:0 1px 3px rgba(0,0,0,.85), 0 2px 16px rgba(0,0,0,.7);
+}
 /* dark background pe dark button gum ho jata, is liye ulta kar diya */
 .sec.on-video .btn{background:rgba(255,250,242,.94);color:var(--plum)}
 .sec.on-video .btn:hover{background:#fff}
