@@ -25,6 +25,8 @@
 /public/videos/wajih_hero.mov
 /public/videos/wajih_hero_mbl.MOV
 /public/videos/wajih_hero_mbl_new.MOV
+/public/videos/wajih_hero_mbl_compressed.mp4
+/public/videos/wajih_hero_mbl_with_audio.mp4
 
 # debug
 npm-debug.log*
