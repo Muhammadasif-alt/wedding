@@ -103,7 +103,7 @@ export const invitation = {
   rsvp: {
     bg: "/photos/rsvp.jpg", // background image; "" = saada cream
     veil: 0.58,
-    note: "Your presence will make our special day complete. Please let us know by 1 October 2026.",
+    note: "Your presence will make our special day complete.",
 
     // WhatsApp number — country code ke sath, bina + aur bina space ke
     // (+92 309 7313407)

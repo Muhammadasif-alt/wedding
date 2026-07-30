@@ -41,7 +41,7 @@ export default function RsvpForm() {
       <div className="rsvp-done rv in">
         <p className="rsvp-done-line">Thank you, {name.trim().split(" ")[0]}.</p>
         <p className="rsvp-done-sub">
-          WhatsApp khul gaya hai — bas message bhej dijiye aur hum aapka intezar karenge.
+          WhatsApp is open — just send the message and we will be waiting for you.
         </p>
         <button className="close-link" onClick={() => setSent(false)}>
           Send another response
@@ -66,7 +66,7 @@ export default function RsvpForm() {
           aria-invalid={error}
         />
       </label>
-      {error && <p className="field-error">Apna naam likh dijiye</p>}
+      {error && <p className="field-error">Please enter your name</p>}
 
       <fieldset className="field choice">
         <legend>Will you join us?</legend>
@@ -94,7 +94,7 @@ export default function RsvpForm() {
           rows={2}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Duaein, wishes ya koi baat…"
+          placeholder="Your wishes, prayers or a few words…"
         />
       </label>
 
