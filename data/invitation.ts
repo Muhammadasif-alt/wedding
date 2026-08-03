@@ -81,7 +81,7 @@ export const invitation = {
 
   events: [
     {
-      name: "Shalima",
+      name: "Walima",
       date: "Saturday, 10 October 2026",
       time: "1:00 PM onwards",
       venue: "Encore by Zafar Group, Pine Avenue, Lahore",
