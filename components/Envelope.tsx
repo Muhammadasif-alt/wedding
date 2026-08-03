@@ -30,7 +30,11 @@ export default function Envelope({ opened, onOpen }: Props) {
 
       {/* invisible tap target — photo waale gold seal ke exactly upar baithta hai */}
       <button className="seal" onClick={onOpen} aria-label="Open the invitation" />
-      <div className="tap-hint">Tap the seal to open</div>
+
+      {/* saaf dikhne wala button — seal ke neeche, "YOU ARE INVITED" ke upar */}
+      <button className="open-btn" onClick={onOpen}>
+        <span>Press to open</span>
+      </button>
     </div>
   );
 }

@@ -33,6 +33,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
 
   const [scrubSrc, setScrubSrc] = useState<string | null>(null);
   const [loadPct, setLoadPct] = useState(0);
+  // scroll cue — hero ke aakhir tak pahunchte hi ghayab ho jata hai
+  const [cueOn, setCueOn] = useState(true);
 
   // render ke doran matchMedia parhne se server aur client ka pehla render alag
   // ho sakta hai — is liye mount ke baad set karte hain
@@ -133,6 +135,8 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
 
       // text aakhri hisse mein aa kar thehar jata hai
       stick.style.setProperty("--reveal", String(clamp01((p - 0.58) / 0.3)));
+      // cue sirf shuru mein — scroll shuru hote hi apna kaam kar chuka
+      setCueOn(p < 0.06);
 
       if (v.duration) target = p * v.duration;
     };
@@ -203,6 +207,18 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
     return () => io.disconnect();
   }, [show]);
 
+  // scroll cue dabane par neeche le jao. Scrub hero 4 screen lamba hai — usay
+  // poora phalang jaana video ko skip kar deta hai, is liye ek screen aage.
+  const scrollDown = () => {
+    const track = heroRef.current;
+    const scroller = track?.closest<HTMLElement>("#cardScene");
+    if (!track || !scroller) return;
+    const heroEnd = track.offsetTop + track.offsetHeight;
+    const top = scrubbing
+      ? Math.min(scroller.scrollTop + scroller.clientHeight, heroEnd)
+      : heroEnd;
+    scroller.scrollTo({ top, behavior: "smooth" });
+  };
 
   return (
     <div ref={ref} id="cardScene" className={show ? "show" : ""} aria-label="Wedding invitation card">
@@ -295,6 +311,21 @@ const Card = forwardRef<HTMLDivElement, Props>(function Card({ show, onClose }, 
           <div className="hero-date rv" style={{ "--d": ".68s" } as React.CSSProperties}>{weddingDate}</div>
           <p className="hero-sub rv" style={{ "--d": ".78s" } as React.CSSProperties}>{hero.footer}</p>
         </div>
+
+        {/* neeche jane ka ishara — dabao tou ek screen aage le jata hai */}
+        <button
+          className={`scroll-cue${scrubbing && !cueOn ? " gone" : ""}`}
+          onClick={scrollDown}
+          aria-label="Scroll down"
+        >
+          <span className="cue-label">Scroll</span>
+          <span className="cue-track">
+            <span className="cue-dot" />
+          </span>
+          <svg className="cue-chev" viewBox="0 0 24 13" aria-hidden="true">
+            <path d="M2 2 L12 11 L22 2" />
+          </svg>
+        </button>
 
       </div>
       </section>
